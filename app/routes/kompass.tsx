@@ -236,21 +236,18 @@ export default function Kompass() {
   }
 
   function downloadConversation() {
-    const lines = shown.map(
-      (m) => `**${m.role === "user" ? "Du" : "Kompassen"}:** ${m.content}`,
-    );
-    const text = `# Konsekvenskompassen — mitt samtal\n\n${lines.join("\n\n")}\n`;
-    const blob = new Blob([text], { type: "text/markdown;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `konsekvenskompassen-samtal-${new Date().toISOString().slice(0, 10)}.md`;
-    a.click();
-    URL.revokeObjectURL(url);
+    // Skriv ut den dolda utskriftsvyn — "Spara som PDF" i utskriftsdialogen.
+    // PDF:en skapas helt lokalt i webbläsaren; inget skickas någonstans.
+    const previousTitle = document.title;
+    document.title = `konsekvenskompassen-samtal-${new Date().toISOString().slice(0, 10)}`;
+    window.print();
+    document.title = previousTitle;
   }
 
   return (
-    <main className="mx-auto flex h-screen max-w-2xl flex-col px-4 py-6">
+    <main className="mx-auto flex h-screen max-w-2xl flex-col px-4 py-6 print:block print:h-auto">
+      {/* contents = osynlig för layouten; print:hidden döljer hela appvyn vid utskrift */}
+      <div className="contents print:hidden">
       <header className="mb-6 flex items-start justify-between border-b border-gray-200 pb-5 pt-2 dark:border-gray-800">
         <div>
           <p className="text-xs text-gray-400 dark:text-gray-500">
@@ -276,7 +273,7 @@ export default function Kompass() {
               onClick={downloadConversation}
               className="text-sm text-gray-500 underline underline-offset-2 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
             >
-              Ladda ner samtalet
+              Spara som PDF
             </button>
           )}
           {!feedbackSent && (
@@ -290,58 +287,6 @@ export default function Kompass() {
           )}
         </div>
       </header>
-
-      {feedbackOpen && !feedbackSent && (
-        <div className="mb-4 rounded-lg border border-gray-200 p-3 dark:border-gray-800">
-          <p className="mb-2 text-sm">
-            Hur användbart var detta, på en skala 0–10?
-          </p>
-          <div className="flex flex-wrap gap-1.5">
-            {Array.from({ length: 11 }, (_, score) => (
-              <button
-                key={score}
-                type="button"
-                disabled={feedbackPending}
-                onClick={() => submitFeedback(score)}
-                className="h-8 w-8 rounded-md border border-gray-300 text-sm hover:bg-gray-900 hover:text-white disabled:opacity-50 dark:border-gray-700 dark:hover:bg-white dark:hover:text-gray-900"
-              >
-                {score}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-      {feedbackSent && !commentSent && (
-        <div className="mb-4 rounded-lg border border-gray-200 p-3 dark:border-gray-800">
-          <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-            Tack! Något du vill tillägga? (Frivilligt — kommentaren sparas, så
-            skriv inget du inte vill dela.)
-          </p>
-          <div className="flex gap-2">
-            <textarea
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              disabled={feedbackPending}
-              rows={2}
-              maxLength={2000}
-              className="flex-1 resize-none rounded-lg border border-gray-300 px-3 py-2 text-sm disabled:opacity-50 dark:border-gray-700 dark:bg-gray-900"
-            />
-            <button
-              type="button"
-              onClick={submitComment}
-              disabled={feedbackPending || !comment.trim()}
-              className="self-end rounded-lg border border-gray-300 px-3 py-2 text-sm disabled:opacity-50 dark:border-gray-700"
-            >
-              Skicka
-            </button>
-          </div>
-        </div>
-      )}
-      {commentSent && (
-        <div className="mb-4 rounded-lg border border-gray-200 p-3 text-sm text-gray-500 dark:border-gray-800 dark:text-gray-400">
-          Tack för din feedback!
-        </div>
-      )}
 
       <div className="flex-1 space-y-3 overflow-y-auto pb-4">
         {shown.map((m, i) =>
@@ -402,6 +347,57 @@ export default function Kompass() {
           Skicka
         </button>
       </form>
+      {feedbackOpen && !feedbackSent && (
+        <div className="mt-3 rounded-lg border border-gray-200 p-3 dark:border-gray-800">
+          <p className="mb-2 text-sm">
+            Hur användbart var detta, på en skala 0–10?
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            {Array.from({ length: 11 }, (_, score) => (
+              <button
+                key={score}
+                type="button"
+                disabled={feedbackPending}
+                onClick={() => submitFeedback(score)}
+                className="h-8 w-8 rounded-md border border-gray-300 text-sm hover:bg-gray-900 hover:text-white disabled:opacity-50 dark:border-gray-700 dark:hover:bg-white dark:hover:text-gray-900"
+              >
+                {score}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      {feedbackSent && !commentSent && (
+        <div className="mt-3 rounded-lg border border-gray-200 p-3 dark:border-gray-800">
+          <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+            Tack! Något du vill tillägga? (Frivilligt — kommentaren sparas, så
+            skriv inget du inte vill dela.)
+          </p>
+          <div className="flex gap-2">
+            <textarea
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              disabled={feedbackPending}
+              rows={2}
+              maxLength={2000}
+              className="flex-1 resize-none rounded-lg border border-gray-300 px-3 py-2 text-sm disabled:opacity-50 dark:border-gray-700 dark:bg-gray-900"
+            />
+            <button
+              type="button"
+              onClick={submitComment}
+              disabled={feedbackPending || !comment.trim()}
+              className="self-end rounded-lg border border-gray-300 px-3 py-2 text-sm disabled:opacity-50 dark:border-gray-700"
+            >
+              Skicka
+            </button>
+          </div>
+        </div>
+      )}
+      {commentSent && (
+        <div className="mt-3 rounded-lg border border-gray-200 p-3 text-sm text-gray-500 dark:border-gray-800 dark:text-gray-400">
+          Tack för din feedback!
+        </div>
+      )}
       <p className="mt-2 text-xs text-gray-400 dark:text-gray-500">
         Dina svar lagras inte på servern och kopplas inte till vem du är.
         Frågan om yrke/ort är frivillig.{" "}
@@ -409,6 +405,30 @@ export default function Kompass() {
           Så hanteras dina uppgifter
         </Link>
       </p>
+      </div>
+
+      {/* Utskriftsvy — enbart synlig vid utskrift/Spara som PDF */}
+      <div className="hidden print:block">
+        <h1 className="text-2xl font-bold">Konsekvenskompassen — mitt samtal</h1>
+        <p className="mb-6 mt-1 text-sm text-gray-500">
+          {new Date().toLocaleDateString("sv-SE")} · konsekvenskompassen.se
+        </p>
+        <div className="space-y-4">
+          {shown.map((m, i) =>
+            m.role === "user" ? (
+              <div key={i} className="whitespace-pre-wrap">
+                <span className="font-bold">Du: </span>
+                {m.content}
+              </div>
+            ) : (
+              <div key={i}>
+                <span className="font-bold">Kompassen:</span>
+                <Markdown compact>{m.content}</Markdown>
+              </div>
+            ),
+          )}
+        </div>
+      </div>
     </main>
   );
 }
