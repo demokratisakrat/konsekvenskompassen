@@ -11,9 +11,8 @@ export function meta(_: Route.MetaArgs) {
     { property: "og:description", content: description },
     { property: "og:type", content: "website" },
     {
-      // OBS: byt till https://konsekvenskompassen.se när domänen är kopplad
       property: "og:image",
-      content: "https://konsekvenskompassen.johan-4b5.workers.dev/icon-512.png",
+      content: "https://konsekvenskompassen.se/icon-512.png",
     },
     { name: "twitter:card", content: "summary" },
   ];

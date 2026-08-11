@@ -169,7 +169,7 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
         <StatTile
           label="NPS"
           value={npsScore !== null ? String(npsScore) : "—"}
-          sub={`${stats.nps.responses} svar, snitt ${stats.nps.avgScore?.toFixed(1) ?? "—"}`}
+          sub={`${stats.nps.responses} svar, snitt ${stats.nps.avgScore?.toFixed(1) ?? "—"}, ${stats.nps.comments} kommentarer`}
         />
         <StatTile
           label="Snitt total tid"

@@ -37,6 +37,9 @@ export default function Kompass() {
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [feedbackPending, setFeedbackPending] = useState(false);
+  const [comment, setComment] = useState("");
+  const [commentSent, setCommentSent] = useState(false);
+  const feedbackAutoOpenedRef = useRef(false);
 
   function logStepTiming(completedStep: number, lapMs: number) {
     const totalElapsedMs = Date.now() - sessionStartRef.current;
@@ -156,6 +159,22 @@ export default function Kompass() {
     }
   }
 
+  async function submitComment() {
+    const text = comment.trim();
+    if (!text) return;
+    setFeedbackPending(true);
+    try {
+      await fetch("/api/feedback", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ sessionId: sessionIdRef.current, comment: text }),
+      });
+      setCommentSent(true);
+    } finally {
+      setFeedbackPending(false);
+    }
+  }
+
   useEffect(() => {
     if (startedRef.current) return;
     startedRef.current = true;
@@ -167,6 +186,21 @@ export default function Kompass() {
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, streamingText]);
+
+  // När analysen (steg 4) är klar: öppna feedbackpanelen en gång automatiskt —
+  // headerlänken är lätt att missa i just det ögonblick då folk vill tycka till.
+  useEffect(() => {
+    if (
+      currentStep >= 4 &&
+      !pending &&
+      messages.some((m) => m.role === "assistant") &&
+      !feedbackSent &&
+      !feedbackAutoOpenedRef.current
+    ) {
+      feedbackAutoOpenedRef.current = true;
+      setFeedbackOpen(true);
+    }
+  }, [currentStep, pending, messages, feedbackSent]);
 
   useEffect(() => {
     const el = textareaRef.current;
@@ -277,7 +311,33 @@ export default function Kompass() {
           </div>
         </div>
       )}
-      {feedbackSent && (
+      {feedbackSent && !commentSent && (
+        <div className="mb-4 rounded-lg border border-gray-200 p-3 dark:border-gray-800">
+          <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+            Tack! Något du vill tillägga? (Frivilligt — kommentaren sparas, så
+            skriv inget du inte vill dela.)
+          </p>
+          <div className="flex gap-2">
+            <textarea
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              disabled={feedbackPending}
+              rows={2}
+              maxLength={2000}
+              className="flex-1 resize-none rounded-lg border border-gray-300 px-3 py-2 text-sm disabled:opacity-50 dark:border-gray-700 dark:bg-gray-900"
+            />
+            <button
+              type="button"
+              onClick={submitComment}
+              disabled={feedbackPending || !comment.trim()}
+              className="self-end rounded-lg border border-gray-300 px-3 py-2 text-sm disabled:opacity-50 dark:border-gray-700"
+            >
+              Skicka
+            </button>
+          </div>
+        </div>
+      )}
+      {commentSent && (
         <div className="mb-4 rounded-lg border border-gray-200 p-3 text-sm text-gray-500 dark:border-gray-800 dark:text-gray-400">
           Tack för din feedback!
         </div>

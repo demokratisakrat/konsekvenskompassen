@@ -2,6 +2,10 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "konsekvenskompassen",
   "main": "./workers/app.ts",
+  "routes": [
+    { "pattern": "konsekvenskompassen.se", "custom_domain": true },
+    { "pattern": "www.konsekvenskompassen.se", "custom_domain": true },
+  ],
   "compatibility_date": "2025-10-08",
   "compatibility_flags": ["nodejs_compat"],
   "observability": {

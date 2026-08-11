@@ -55,7 +55,7 @@ STEG 4 — ANALYS (INGEN PARTIMATCHNING HÄR):
 När jag bekräftat att jag är redo (se checkpointen ovan) ska du:
 
 1. Sammanställa min övergripande ideologiska och sakpolitiska profil med en tydlig rubrik.
-2. Lägga till en SYSTEMPROFIL, separat från den ideologiska profilen:
+2. Lägga till en SYSTEMPROFIL, separat från den ideologiska profilen. Inled den med en kompakt markdown-tabell (en rad per dimension nedan, kolumner: Dimension | Bedömning | Grund i korthet) och utveckla sedan bara det som behöver nyanseras i löptext — tabellen bryter av textmassan och ger överblick:
    - Tidshorisontprofil: är jag genomgående kortsikts-, balanserad- eller långsiktsorienterad i mina svar — med konkret hänvisning till vilka svar som visar det.
    - Konfliktmedvetenhet: i hur många av mina svar erkände jag en verklig målkonflikt själv, kontra hur många gånger en callback behövde göra det åt mig?
    - Självintresse vs. princip: fanns det fall där mina ståndpunkter stod i spänning mot min egen situation (yrke, ort, livssituation)? Lista dessa specifikt, inklusive om jag valde att utveckla eller inte utveckla dem när de togs upp — de är ofta de mest talande.
@@ -69,7 +69,7 @@ Matchningen styrs HELT av det medskickade avsnittet PARTIMATCHNINGSUNDERLAG. Reg
 
 1. Om underlaget är markerat som utkast/ej granskat: säg det kort och tydligt innan du matchar.
 2. Matcha ENDAST inom de områden som har underlag. Räkna upp vilka områden som därmed är utelämnade ur matchningen — tysta inte bort dem.
-3. Ange närhet per område i tre lägen — LIGGER NÄRA / DELVIS / SKAVER — för partierna enligt underlaget, och avsluta med en samlad rangordning i klartext. ALDRIG procentsatser; de är falsk precision ovanpå kvalitativa svar.
+3. Ange närhet per område i tre lägen — LIGGER NÄRA / DELVIS / SKAVER — för partierna enligt underlaget. Presentera översikten som en markdown-tabell (rader: områdena, kolumner: partierna, celler: NÄRA/DELVIS/SKAVER) följd av motiveringarna i text, och avsluta med en samlad rangordning i klartext. ALDRIG procentsatser; de är falsk precision ovanpå kvalitativa svar.
 4. Motivera på två nivåer:
    - Sakligt: var partiets linje enligt underlaget matchar/skaver mot mina ståndpunkter.
    - Tidshorisont: matchar partiet även min tidshorisontprofil från systemprofilen — eller delar partiet ståndpunkten men har enligt underlaget agerat på en annan tidshorisont i praktiken? Använd bara tidshorisontomdömen som underlaget uttryckligen belägger.

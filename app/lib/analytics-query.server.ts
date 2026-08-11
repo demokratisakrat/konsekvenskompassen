@@ -29,6 +29,7 @@ export type NpsStats = {
   avgScore: number | null;
   promoters: number;
   detractors: number;
+  comments: number;
 };
 export type StepTiming = { step: number; avgSeconds: number; count: number };
 
@@ -59,6 +60,7 @@ export async function fetchUsageStats(
     detractorRows,
     stepTimingRows,
     totalDurationRows,
+    commentRows,
   ] = await Promise.all([
     q(`SELECT toStartOfInterval(timestamp, INTERVAL '1' DAY) AS day, COUNT(DISTINCT index1) AS sessions
        FROM ${DATASET}
@@ -96,6 +98,11 @@ export async function fetchUsageStats(
        FROM ${DATASET}
        WHERE blob1 = 'step_timing' AND double1 = 4 AND ${SINCE}
        FORMAT JSON`),
+    // Bara antalet — kommentarernas innehåll hör inte hemma på den publika statistiksidan.
+    q(`SELECT COUNT() AS comments
+       FROM ${DATASET}
+       WHERE blob1 = 'feedback_comment' AND ${SINCE}
+       FORMAT JSON`),
   ]);
 
   const total = totalRows[0] ?? {};
@@ -122,6 +129,7 @@ export async function fetchUsageStats(
           : Number(nps.avg_score),
       promoters: Number(promoters.promoters ?? 0),
       detractors: Number(detractors.detractors ?? 0),
+      comments: Number(commentRows[0]?.comments ?? 0),
     },
     stepTimings: stepTimingRows
       .map((r) => ({

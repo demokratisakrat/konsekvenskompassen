@@ -50,6 +50,10 @@ export default function Integritet() {
             meddelanden, eventuella tekniska fel, och ditt betyg om du lämnar
             feedback. Det är allt.
           </li>
+          <li>
+            Om du väljer att skriva en frivillig feedbackkommentar sparas den
+            — det står vid fältet, och den visas inte offentligt.
+          </li>
         </ul>
 
         <h2 className="mt-8 text-lg font-semibold">Vart dina svar skickas</h2>
