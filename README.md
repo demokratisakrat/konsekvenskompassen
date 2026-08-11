@@ -2,7 +2,7 @@
 
 En valkompass inför riksdagsvalet 2026 som inte bara frågar vad du tycker — den visar vad dina svar kostar, och vem som får betala.
 
-**Prova den:** https://demokratisakrat.johan-4b5.workers.dev *(flyttar till konsekvenskompassen.se)*
+**Prova den:** https://konsekvenskompassen.johan-4b5.workers.dev *(flyttar till konsekvenskompassen.se)*
 
 Vanliga valkompasser matchar åsikter mot partier. Konsekvenskompassen är byggd för eftertanke: i ett samtal synliggör den målkonflikter, systemeffekter och tidshorisonter bakom dina ståndpunkter — även där de träffar din egen situation. Resultatet är en ideologisk profil och en systemprofil; partimatchning erbjuds som ett frivilligt steg efteråt.
 
