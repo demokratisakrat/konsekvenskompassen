@@ -1,0 +1,7 @@
+ANTHROPIC_API_KEY=din-api-nyckel-har
+# Valfritt, standard är claude-sonnet-5:
+# ANTHROPIC_MODEL=claude-sonnet-5
+
+# För /stats — token behöver "Account Analytics: Read"
+CLOUDFLARE_ACCOUNT_ID=ditt-konto-id
+CLOUDFLARE_ANALYTICS_API_TOKEN=din-analytics-token

@@ -1,0 +1,354 @@
+import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router";
+import type { Route } from "./+types/kompass";
+import { Markdown } from "../components/Markdown";
+
+export function meta(_: Route.MetaArgs) {
+  return [{ title: "Konsekvenskompassen" }];
+}
+
+type ChatMessage = { role: "user" | "assistant"; content: string };
+
+const KICKOFF = "Starta kompassen.";
+const STEP_LABELS: Record<number, string> = {
+  1: "Väljarprofil",
+  2: "Principfrågor",
+  3: "Sakfrågor 2026",
+  4: "Analys",
+  5: "Partimatchning",
+};
+
+export default function Kompass() {
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [streamingText, setStreamingText] = useState<string | null>(null);
+  const [waitSeconds, setWaitSeconds] = useState(0);
+  const [currentStep, setCurrentStep] = useState(1);
+  const [input, setInput] = useState("");
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const startedRef = useRef(false);
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const sessionIdRef = useRef<string>(crypto.randomUUID());
+  const sessionStartRef = useRef<number>(Date.now());
+  const lapStartRef = useRef<number>(Date.now());
+  const stepRef = useRef(1);
+
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const [feedbackSent, setFeedbackSent] = useState(false);
+  const [feedbackPending, setFeedbackPending] = useState(false);
+
+  function logStepTiming(completedStep: number, lapMs: number) {
+    const totalElapsedMs = Date.now() - sessionStartRef.current;
+    fetch("/api/timing", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        sessionId: sessionIdRef.current,
+        step: completedStep,
+        lapMs,
+        totalElapsedMs,
+      }),
+      keepalive: true,
+    }).catch(() => {});
+  }
+
+  async function send(history: ChatMessage[]) {
+    setPending(true);
+    setError(null);
+    setStreamingText("");
+    setWaitSeconds(0);
+    let text = "";
+
+    const waitTimer = setInterval(() => {
+      setWaitSeconds((s) => s + 1);
+    }, 1000);
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          messages: history,
+          sessionId: sessionIdRef.current,
+        }),
+      });
+      if (!res.body) throw new Error("Inget svar från servern");
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+
+        let idx: number;
+        while ((idx = buffer.indexOf("\n\n")) !== -1) {
+          const rawEvent = buffer.slice(0, idx);
+          buffer = buffer.slice(idx + 2);
+          const eventMatch = rawEvent.match(/^event: (.+)$/m);
+          const dataMatch = rawEvent.match(/^data: (.+)$/m);
+          if (!eventMatch || !dataMatch) continue;
+          const data = JSON.parse(dataMatch[1]);
+
+          if (eventMatch[1] === "step") {
+            const newStep: number = data.step;
+            if (newStep > stepRef.current) {
+              const now = Date.now();
+              logStepTiming(stepRef.current, now - lapStartRef.current);
+              lapStartRef.current = now;
+              stepRef.current = newStep;
+            }
+            setCurrentStep(stepRef.current);
+          } else if (eventMatch[1] === "delta") {
+            if (!text) clearInterval(waitTimer);
+            text += data.text;
+            setStreamingText(text);
+          } else if (eventMatch[1] === "error") {
+            setError(data.message);
+          }
+        }
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      clearInterval(waitTimer);
+      if (text) {
+        setMessages([...history, { role: "assistant", content: text }]);
+      }
+      setStreamingText(null);
+      setPending(false);
+    }
+  }
+
+  function waitingLabel(seconds: number, step: number): string {
+    // Steg 4 (analys) och steg 5 (matchning) genereras medan currentStep
+    // fortfarande visar föregående steg (markören kommer först i nästa svar),
+    // så vi räknar redan från steg 3 som "kan bli en lång analys".
+    const longStep = step >= 3;
+    if (seconds < 6) return "Tänker …";
+    if (longStep) {
+      if (seconds < 30) {
+        return "Sammanställer analysen — det här steget brukar ta ungefär en minut …";
+      }
+      return "Nästan klart — en fullständig analys kan ibland ta upp till två minuter …";
+    }
+    if (seconds < 20) return "Tänker fortfarande …";
+    return "Tar lite längre tid än vanligt, men jobbar på det …";
+  }
+
+  async function submitFeedback(score: number) {
+    setFeedbackPending(true);
+    const now = Date.now();
+    logStepTiming(stepRef.current, now - lapStartRef.current);
+    lapStartRef.current = now;
+    try {
+      await fetch("/api/feedback", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ sessionId: sessionIdRef.current, score }),
+      });
+      setFeedbackSent(true);
+    } finally {
+      setFeedbackPending(false);
+    }
+  }
+
+  useEffect(() => {
+    if (startedRef.current) return;
+    startedRef.current = true;
+    const history: ChatMessage[] = [{ role: "user", content: KICKOFF }];
+    setMessages(history);
+    send(history);
+  }, []);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, streamingText]);
+
+  useEffect(() => {
+    const el = textareaRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${Math.min(el.scrollHeight, 200)}px`;
+  }, [input]);
+
+  const shown = messages.filter((m) => m.content !== KICKOFF);
+
+  function submitCurrentInput() {
+    const text = input.trim();
+    if (!text || pending) return;
+    setInput("");
+    const history: ChatMessage[] = [
+      ...messages,
+      { role: "user", content: text },
+    ];
+    setMessages(history);
+    send(history);
+  }
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    submitCurrentInput();
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      submitCurrentInput();
+    }
+  }
+
+  function downloadConversation() {
+    const lines = shown.map(
+      (m) => `**${m.role === "user" ? "Du" : "Kompassen"}:** ${m.content}`,
+    );
+    const text = `# Konsekvenskompassen — mitt samtal\n\n${lines.join("\n\n")}\n`;
+    const blob = new Blob([text], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `konsekvenskompassen-samtal-${new Date().toISOString().slice(0, 10)}.md`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  return (
+    <main className="mx-auto flex h-screen max-w-2xl flex-col px-4 py-6">
+      <header className="mb-6 flex items-start justify-between border-b border-gray-200 pb-5 pt-2 dark:border-gray-800">
+        <div>
+          <p className="text-xs text-gray-400 dark:text-gray-500">
+            <Link to="/" className="hover:underline">
+              ← Startsidan
+            </Link>
+          </p>
+          <h1 className="mt-1 text-xl font-bold">Konsekvenskompassen</h1>
+          <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+            En valkompass som inte bara frågar vad du tycker — den visar vad
+            dina svar kostar, och vem som får betala.
+          </p>
+          <p className="mt-2 text-xs text-gray-400 dark:text-gray-500">
+            {currentStep <= 4
+              ? `Steg ${currentStep} av 4 — ${STEP_LABELS[currentStep]}`
+              : `Tillval — ${STEP_LABELS[currentStep]}`}
+          </p>
+        </div>
+        <div className="flex shrink-0 flex-col items-end gap-1">
+          {shown.length > 0 && (
+            <button
+              type="button"
+              onClick={downloadConversation}
+              className="text-sm text-gray-500 underline underline-offset-2 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+            >
+              Ladda ner samtalet
+            </button>
+          )}
+          {!feedbackSent && (
+            <button
+              type="button"
+              onClick={() => setFeedbackOpen((v) => !v)}
+              className="text-sm text-gray-500 underline underline-offset-2 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+            >
+              Ge feedback
+            </button>
+          )}
+        </div>
+      </header>
+
+      {feedbackOpen && !feedbackSent && (
+        <div className="mb-4 rounded-lg border border-gray-200 p-3 dark:border-gray-800">
+          <p className="mb-2 text-sm">
+            Hur användbart var detta, på en skala 0–10?
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            {Array.from({ length: 11 }, (_, score) => (
+              <button
+                key={score}
+                type="button"
+                disabled={feedbackPending}
+                onClick={() => submitFeedback(score)}
+                className="h-8 w-8 rounded-md border border-gray-300 text-sm hover:bg-gray-900 hover:text-white disabled:opacity-50 dark:border-gray-700 dark:hover:bg-white dark:hover:text-gray-900"
+              >
+                {score}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      {feedbackSent && (
+        <div className="mb-4 rounded-lg border border-gray-200 p-3 text-sm text-gray-500 dark:border-gray-800 dark:text-gray-400">
+          Tack för din feedback!
+        </div>
+      )}
+
+      <div className="flex-1 space-y-3 overflow-y-auto pb-4">
+        {shown.map((m, i) =>
+          m.role === "user" ? (
+            <div
+              key={i}
+              className="ml-auto max-w-[80%] whitespace-pre-wrap rounded-2xl bg-gray-900 px-4 py-2 text-white dark:bg-white dark:text-gray-900"
+            >
+              {m.content}
+            </div>
+          ) : (
+            <div
+              key={i}
+              className="max-w-[80%] rounded-2xl border border-gray-200 px-4 py-2 dark:border-gray-800"
+            >
+              <Markdown compact>{m.content}</Markdown>
+            </div>
+          ),
+        )}
+        {streamingText !== null &&
+          (streamingText ? (
+            <div className="max-w-[80%] rounded-2xl border border-gray-200 px-4 py-2 dark:border-gray-800">
+              <Markdown compact>{streamingText}</Markdown>
+            </div>
+          ) : (
+            <div className="max-w-[80%] rounded-2xl border border-gray-200 px-4 py-2 text-gray-400 dark:border-gray-800">
+              {waitingLabel(waitSeconds, currentStep)}
+            </div>
+          ))}
+        {error && (
+          <div className="max-w-[80%] rounded-2xl bg-red-100 px-4 py-2 text-red-800 dark:bg-red-950 dark:text-red-200">
+            Fel: {error}
+          </div>
+        )}
+        <div ref={bottomRef} />
+      </div>
+
+      <form
+        onSubmit={handleSubmit}
+        className="flex gap-2 border-t border-gray-200 pt-3 dark:border-gray-800"
+      >
+        <textarea
+          ref={textareaRef}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="Skriv ditt svar... (Enter för att skicka, Shift+Enter för ny rad)"
+          disabled={pending}
+          autoFocus
+          rows={1}
+          className="flex-1 resize-none rounded-lg border border-gray-300 px-3 py-2 disabled:opacity-50 dark:border-gray-700 dark:bg-gray-900"
+        />
+        <button
+          type="submit"
+          disabled={pending}
+          className="self-end rounded-lg bg-gray-900 px-4 py-2 font-semibold text-white disabled:opacity-50 dark:bg-white dark:text-gray-900"
+        >
+          Skicka
+        </button>
+      </form>
+      <p className="mt-2 text-xs text-gray-400 dark:text-gray-500">
+        Dina svar lagras inte på servern och kopplas inte till vem du är.
+        Frågan om yrke/ort är frivillig.{" "}
+        <Link to="/integritet" className="underline underline-offset-2">
+          Så hanteras dina uppgifter
+        </Link>
+      </p>
+    </main>
+  );
+}
