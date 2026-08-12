@@ -269,6 +269,22 @@ export default function Kompass() {
     el.style.height = `${Math.min(el.scrollHeight, 200)}px`;
   }, [input]);
 
+  // Efter klick på en snabbvalsknapp (som försvinner med svaret) ligger fokus
+  // ingenstans — flytta det till fältet när svaret är klart så man kan skriva
+  // direkt. Men sno inte fokus från t.ex. feedbackrutan om man skriver där.
+  useEffect(() => {
+    if (pending) return;
+    const active = document.activeElement;
+    if (
+      (active instanceof HTMLTextAreaElement ||
+        active instanceof HTMLInputElement) &&
+      active !== textareaRef.current
+    ) {
+      return;
+    }
+    textareaRef.current?.focus();
+  }, [pending]);
+
   const shown = messages.filter((m) => m.content !== KICKOFF);
 
   function submitCurrentInput() {
@@ -458,10 +474,9 @@ export default function Kompass() {
               ? "Skriv ditt svar... eller diktera med 🎤 på tangentbordet"
               : "Skriv ditt svar... (Enter för att skicka, Shift+Enter för ny rad)"
           }
-          disabled={pending}
           autoFocus
           rows={1}
-          className="flex-1 resize-none rounded-lg border border-gray-300 px-3 py-2 disabled:opacity-50 dark:border-gray-700 dark:bg-gray-900"
+          className="flex-1 resize-none rounded-lg border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-gray-900"
         />
         <button
           type="submit"
