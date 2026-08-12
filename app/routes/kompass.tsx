@@ -33,6 +33,7 @@ export default function Kompass() {
   const sessionStartRef = useRef<number>(Date.now());
   const lapStartRef = useRef<number>(Date.now());
   const stepRef = useRef(1);
+  const step5LoggedRef = useRef(false);
 
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [feedbackSent, setFeedbackSent] = useState(false);
@@ -62,6 +63,8 @@ export default function Kompass() {
     setStreamingText("");
     setWaitSeconds(0);
     let text = "";
+    let reachedStep5 = false;
+    let streamError = false;
 
     const waitTimer = setInterval(() => {
       setWaitSeconds((s) => s + 1);
@@ -103,6 +106,7 @@ export default function Kompass() {
               logStepTiming(stepRef.current, now - lapStartRef.current);
               lapStartRef.current = now;
               stepRef.current = newStep;
+              if (newStep === 5) reachedStep5 = true;
             }
             setCurrentStep(stepRef.current);
           } else if (eventMatch[1] === "delta") {
@@ -110,6 +114,7 @@ export default function Kompass() {
             text += data.text;
             setStreamingText(text);
           } else if (eventMatch[1] === "error") {
+            streamError = true;
             setError(data.message);
           }
         }
@@ -120,6 +125,16 @@ export default function Kompass() {
       clearInterval(waitTimer);
       if (text) {
         setMessages([...history, { role: "assistant", content: text }]);
+      }
+      // Steg 5 är sista steget — ingen nästa stegmarkör stänger dess varv.
+      // Logga varvet när matchningssvaret är färdigproducerat: det mäter
+      // genereringstiden (inte lästiden), men garanterar att steget syns i
+      // statistiken för varje producerad matchning.
+      if (reachedStep5 && text && !streamError && !step5LoggedRef.current) {
+        const now = Date.now();
+        logStepTiming(5, now - lapStartRef.current);
+        lapStartRef.current = now;
+        step5LoggedRef.current = true;
       }
       setStreamingText(null);
       setPending(false);
@@ -144,9 +159,13 @@ export default function Kompass() {
 
   async function submitFeedback(score: number) {
     setFeedbackPending(true);
-    const now = Date.now();
-    logStepTiming(stepRef.current, now - lapStartRef.current);
-    lapStartRef.current = now;
+    // Stäng pågående varv — utom om steg 5 redan loggats vid produktion,
+    // då skulle det bli en dubbelräkning av steget.
+    if (!(stepRef.current === 5 && step5LoggedRef.current)) {
+      const now = Date.now();
+      logStepTiming(stepRef.current, now - lapStartRef.current);
+      lapStartRef.current = now;
+    }
     try {
       await fetch("/api/feedback", {
         method: "POST",
