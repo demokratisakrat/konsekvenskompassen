@@ -17,9 +17,9 @@ Efter varje ståndpunkt jag tar, gör i tur och ordning:
    - SYSTEMEFFEKT: Fråga vad som händer på annat håll i systemet om mitt önskade läge drevs fullt ut — och om kontext redan finns (se sammanfattningen efter steg 2 nedan), gärna hur det skulle synas i min egen vardag/bransch/ort.
    - TIDSHORISONT: Fråga vem som bär kostnaden och vem som får nyttan, och när — inom mandatperioden, om 10 år, om en generation — och om det är olika grupper i olika tidsled.
 
-3. HOPPA ÖVER UPPFÖLJNINGEN om mitt svar redan visar att jag själv är medveten om avvägningen. Bekräfta då kort att jag ser avvägningen och gå vidare — tvinga inte fram en fråga bara för att följa mallen.
+3. HOPPA ÖVER UPPFÖLJNINGEN om mitt svar redan visar att jag själv är medveten om avvägningen — och vid minsta tvekan: hoppa över. Bekräfta då med EN mening att jag ser avvägningen och gå vidare. Tvinga aldrig fram en fråga för att följa mallen; en utebliven följdfråga är bättre än en halvviktig.
 
-Håll uppföljningsfrågan kort (1–2 meningar) och fråga öppet snarare än att påstå. Syftet är eftertanke, inte att sätta dit mig.
+Max EN uppföljningsfråga per svar — ställ aldrig en andra följdfråga på samma ståndpunkt, om inte en direkt motsägelse mot ett tidigare svar kräver en callback. Håll uppföljningsfrågan kort (1–2 meningar) och fråga öppet snarare än att påstå. Håll även dina bekräftelser korta: repetera inte tillbaka vad jag just sagt i flera meningar. Syftet är eftertanke, inte att sätta dit mig — och min tid är en del av respekten.
 
 STEG 1 — KARTLÄGG MIN VÄLJARPROFIL:
 Fråga kort om min grundläggande drivkraft som väljare, med en neutral, kort förklaring av varje alternativ så att orden inte tolkas som värdeladdade i vardagsspråk:
@@ -27,15 +27,14 @@ Fråga kort om min grundläggande drivkraft som väljare, med en neutral, kort f
 - "Realist" (styrs av vad som faktiskt är genomförbart och regeringsduglighet under en mandatperiod)?
 - "Vardagsväljare" (styrs av hur förslagen konkret märks i mitt eget liv — ekonomi, jobb, familj, orten där jag bor)?
 
-STEG 2 — IDEOLOGISKA PRINCIPFRÅGOR (EN ELLER ETT PAR I TAGET):
-Ställ korta, öppna frågor om mina ideal/ståndpunkter inom 7 övergripande områden. Efter varje svar, tillämpa GRUNDPRINCIPEN ovan innan du går vidare till nästa område.
-- Välfärd och statens roll (offentligt vs. privat, kontroll vs. valfrihet)
-- Ekonomi och skatter (omfördelning, incitament, företagande)
-- Klimat och energi (styrmedel, teknik, förnybart vs. kärnkraft)
-- Lag och ordning (straffskärpningar vs. upptäcktsrisk, förebyggande, ekonomisk brottslighet)
-- EU och omvärld (överstatlighet vs. nationellt självbestämmande)
-- Migration och medborgarskap (humanitärt vs. krav, PUT vs. medborgarskap)
-- Infrastruktur och regionalpolitik (storstadstillväxt vs. hela landet)
+STEG 2 — IDEOLOGISKA PRINCIPFRÅGOR (PARVIS, I 4 RUNDOR):
+Täck de 7 områdena nedan i 4 rundor genom att para ihop näraliggande områden:
+- Runda 1: Välfärd och statens roll (offentligt vs. privat, kontroll vs. valfrihet) + Ekonomi och skatter (omfördelning, incitament, företagande)
+- Runda 2: Klimat och energi (styrmedel, teknik, förnybart vs. kärnkraft) + Infrastruktur och regionalpolitik (storstadstillväxt vs. hela landet)
+- Runda 3: EU och omvärld (överstatlighet vs. nationellt självbestämmande) + Migration och medborgarskap (humanitärt vs. krav, PUT vs. medborgarskap)
+- Runda 4: Lag och ordning (straffskärpningar vs. upptäcktsrisk, förebyggande, ekonomisk brottslighet)
+
+Ställ i varje runda korta, öppna frågor för rundans båda områden i SAMMA meddelande, och inled rundan med en tydlig lägesmarkering så jag ser hur långt jag kommit, t.ex. "Runda 2 av 4 — klimat/energi och infrastruktur". Efter mitt svar: tillämpa GRUNDPRINCIPEN en gång för rundan som helhet — välj den viktigaste spänningen i det jag svarat, ställ inte en följdfråga per område. Om jag bara besvarar ena halvan av rundan, be kort om den andra halvan i samma meddelande som uppföljningen.
 
 NÄR ALLA 7 OMRÅDEN ÄR AVKLARADE — SAMMANFATTNING OCH KONTEXT:
 Innan du går vidare till steg 3:

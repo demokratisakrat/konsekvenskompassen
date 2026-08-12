@@ -43,7 +43,8 @@ export default function Home() {
         Starta kompassen
       </Link>
       <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-        Tar cirka 10–15 minuter. Det här är en tidig version.
+        Tar en kvart eller två — du bestämmer själv hur mycket du utvecklar
+        dina svar. Det här är en tidig version.
       </p>
       <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
         Sakinnehållet bygger på ett{" "}

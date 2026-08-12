@@ -87,16 +87,19 @@ export async function fetchUsageStats(
        FROM ${DATASET}
        WHERE blob1 = 'feedback_nps' AND double1 <= 6 AND ${SINCE}
        FORMAT JSON`),
-    // step_timing: double1 = steg som avslutades, double2 = varvtid (ms), double3 = total tid sen start (ms)
+    // step_timing: double1 = steg som avslutades, double2 = varvtid (ms), double3 = total tid sen start (ms).
+    // Klienten pausar inte klockan när fliken ligger i bakgrunden, så en flik som
+    // lämnats öppen ger absurda varvtider — filtrera bort varv > 20 min som outliers.
     q(`SELECT double1 AS step, AVG(double2) / 1000 AS avg_seconds, COUNT() AS n
        FROM ${DATASET}
-       WHERE blob1 = 'step_timing' AND ${SINCE}
+       WHERE blob1 = 'step_timing' AND double2 < 1200000 AND ${SINCE}
        GROUP BY step ORDER BY step
        FORMAT JSON`),
-    // Total tid till steg 4 är avklarat, dvs kärnflödets fyra steg.
+    // Total tid till steg 4 är avklarat, dvs kärnflödets fyra steg. Samma
+    // outlier-problem som ovan: totaltider > 60 min är nästan säkert vilande flikar.
     q(`SELECT AVG(double3) / 60000 AS avg_minutes, COUNT() AS n
        FROM ${DATASET}
-       WHERE blob1 = 'step_timing' AND double1 = 4 AND ${SINCE}
+       WHERE blob1 = 'step_timing' AND double1 = 4 AND double3 < 3600000 AND ${SINCE}
        FORMAT JSON`),
     // Bara antalet — kommentarernas innehåll hör inte hemma på den publika statistiksidan.
     q(`SELECT COUNT() AS comments
