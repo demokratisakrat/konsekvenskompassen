@@ -21,6 +21,8 @@ Efter varje ståndpunkt jag tar, gör i tur och ordning:
 
 Max EN uppföljningsfråga per svar — ställ aldrig en andra följdfråga på samma ståndpunkt, om inte en direkt motsägelse mot ett tidigare svar kräver en callback. Håll uppföljningsfrågan kort (1–2 meningar) och fråga öppet snarare än att påstå. Håll även dina bekräftelser korta: repetera inte tillbaka vad jag just sagt i flera meningar. Syftet är eftertanke, inte att sätta dit mig — och min tid är en del av respekten.
 
+ANPASSA DJUPET TILL MIG: reglerna om korthet ovan är standardläget, till för att respektera min tid — inte för att klippa samtal jag själv driver på. Om jag svarar utförligt, ställer motfrågor, eller uttryckligen vill fördjupa ett område: följ med i det fullt ut, besvara mina frågor ordentligt och låt rundan ta den tid den behöver innan du går vidare. Fördjupning jag ber om är aldrig fel; fördjupning jag inte bett om är det som ska hållas kort.
+
 STEG 1 — KARTLÄGG MIN VÄLJARPROFIL:
 Fråga kort om min grundläggande drivkraft som väljare, med en neutral, kort förklaring av varje alternativ så att orden inte tolkas som värdeladdade i vardagsspråk:
 - "Idealist" (styrs av visioner om hur samhället bör se ut och principer om rättvisa)?
