@@ -202,9 +202,11 @@ export default function Kompass() {
     send(history);
   }, []);
 
+  // Scrolla till botten även när feedbackpanelen öppnas/stängs — den ändrar
+  // chattens höjd, vilket annars lämnar historiken halvt urscrollad.
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, streamingText]);
+  }, [messages, streamingText, feedbackOpen, feedbackSent, commentSent]);
 
   // När analysen (steg 4) är klar: öppna feedbackpanelen en gång automatiskt —
   // headerlänken är lätt att missa i just det ögonblick då folk vill tycka till.
