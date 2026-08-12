@@ -53,6 +53,7 @@ Workflown kräver dessa Actions-secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACC
 - `app/routes/metodik.tsx`, `app/routes/integritet.tsx`, `app/routes/om.tsx` — publika sidor
 - `app/routes/api.chat.ts` — serverresurs som anropar Anthropic (eller mock-läge)
 - `app/routes/api.feedback.ts`, `app/routes/api.timing.ts`, `app/routes/stats.tsx` — feedback, steg-tider och användningsstatistik
+- `app/routes/design.tsx` — olänkad designgranskningssida (identitet, partichips, tabellrendering med exempeldata)
 - `app/lib/system-prompt.server.ts` — bygger systemprompten av `app/content/`
 - `app/lib/usage-log.server.ts` — strukturloggning, aldrig samtalsinnehåll
 - `workers/app.ts` — Cloudflare Workers entry point
