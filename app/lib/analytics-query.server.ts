@@ -33,12 +33,15 @@ export type NpsStats = {
 };
 export type StepTiming = { step: number; avgSeconds: number; count: number };
 
+export type MatchningStats = { produced: number; discussionTurns: number };
+
 export type UsageStats = {
   dailySessions: DailySessions[];
   completion: CompletionStats;
   nps: NpsStats;
   stepTimings: StepTiming[];
   avgTotalMinutes: number | null;
+  matchning: MatchningStats;
 };
 
 const DATASET = "demokratisakrat_analytics";
@@ -61,6 +64,7 @@ export async function fetchUsageStats(
     stepTimingRows,
     totalDurationRows,
     commentRows,
+    matchningRows,
   ] = await Promise.all([
     q(`SELECT toStartOfInterval(timestamp, INTERVAL '1' DAY) AS day, COUNT(DISTINCT index1) AS sessions
        FROM ${DATASET}
@@ -106,6 +110,12 @@ export async function fetchUsageStats(
        FROM ${DATASET}
        WHERE blob1 = 'feedback_comment' AND ${SINCE}
        FORMAT JSON`),
+    // Turer i steg 5: första turen per session är själva matchningsproduktionen,
+    // resten är diskussion efteråt. produced = s, diskussionsturer = t - s.
+    q(`SELECT COUNT() AS t, COUNT(DISTINCT index1) AS s
+       FROM ${DATASET}
+       WHERE blob1 = 'turn' AND double2 = 5 AND ${SINCE}
+       FORMAT JSON`),
   ]);
 
   const total = totalRows[0] ?? {};
@@ -143,5 +153,12 @@ export async function fetchUsageStats(
       .filter((r) => r.step > 0),
     avgTotalMinutes:
       totalTime.n && Number(totalTime.n) > 0 ? Number(totalTime.avg_minutes ?? 0) : null,
+    matchning: {
+      produced: Number(matchningRows[0]?.s ?? 0),
+      discussionTurns: Math.max(
+        0,
+        Number(matchningRows[0]?.t ?? 0) - Number(matchningRows[0]?.s ?? 0),
+      ),
+    },
   };
 }

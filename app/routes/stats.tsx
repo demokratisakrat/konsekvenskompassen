@@ -190,6 +190,13 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
         Tid per steg
       </h2>
       <StepTimingsTable data={stats.stepTimings} />
+      <p className="mt-3 text-sm text-gray-500 dark:text-gray-400">
+        Partimatchning (tillval): {stats.matchning.produced} producerade,{" "}
+        {stats.matchning.discussionTurns} diskussionsturer efteråt
+        {stats.matchning.produced > 0 &&
+          ` (snitt ${(stats.matchning.discussionTurns / stats.matchning.produced).toFixed(1)} per matchning)`}
+        .
+      </p>
     </main>
   );
 }
