@@ -35,6 +35,9 @@ export default function Kompass() {
   const lapStartRef = useRef<number>(Date.now());
   const stepRef = useRef(1);
   const step5LoggedRef = useRef(false);
+  // Vilket stegs innehåll som senast levererats — skiljer "analysen genereras"
+  // från "vanligt svar i diskussionen efteråt" i väntetexten.
+  const lastDeliveredStepRef = useRef(0);
 
   const [quickChoices, setQuickChoices] = useState<string[] | null>(null);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
@@ -147,6 +150,7 @@ export default function Kompass() {
         const { text: cleaned, choices } = extractChoices(text);
         setMessages([...history, { role: "assistant", content: cleaned }]);
         setQuickChoices(choices);
+        lastDeliveredStepRef.current = stepRef.current;
       }
       // Steg 5 är sista steget — ingen nästa stegmarkör stänger dess varv.
       // Logga varvet när matchningssvaret är färdigproducerat: det mäter
@@ -164,16 +168,22 @@ export default function Kompass() {
   }
 
   function waitingLabel(seconds: number, step: number): string {
-    // Steg 4 (analys) och steg 5 (matchning) genereras medan currentStep
-    // fortfarande visar föregående steg (markören kommer först i nästa svar),
-    // så vi räknar redan från steg 3 som "kan bli en lång analys".
-    const longStep = step >= 3;
+    const delivered = lastDeliveredStepRef.current;
     if (seconds < 6) return "Tänker …";
-    if (longStep) {
+    // Analysen genereras efter checkpointen i steg 3, matchningen efter
+    // erbjudandet i steg 4 — men diskussionen EFTER matchningen är vanliga
+    // korta svar och ska inte få "sammanställer analysen"-texten.
+    if (step >= 3 && delivered <= 3) {
       if (seconds < 30) {
         return "Sammanställer analysen — det här steget brukar ta ungefär en minut …";
       }
       return "Nästan klart — en fullständig analys kan ibland ta upp till två minuter …";
+    }
+    if (delivered === 4) {
+      if (seconds < 30) {
+        return "Jobbar på det — en fullständig partimatchning kan ta upp till ett par minuter …";
+      }
+      return "Nästan klart …";
     }
     if (seconds < 20) return "Tänker fortfarande …";
     return "Tar lite längre tid än vanligt, men jobbar på det …";
