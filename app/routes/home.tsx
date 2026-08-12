@@ -32,9 +32,10 @@ export default function Home() {
         Den politiska debatten pressar varje fråga mot svart eller vitt. Då
         försvinner platsen där de flesta verkliga avvägningarna faktiskt
         ligger — i ett ärligt "både och". Valsnack är en plats där du kan
-        bolla dina tankar inför valet i lugn och ro: ett samtal som
-        synliggör målkonflikter, systemeffekter och tidshorisonter bakom
-        dina ståndpunkter — även där de träffar din egen situation.
+        bolla dina tankar inför valet i lugn och ro: ett samtal om vad dina
+        åsikter väljer bort, vad de drar igång någon annanstans, och när
+        notan kommer — nu eller om tjugo år. Ibland landar den hos dig
+        själv.
       </p>
       <Link
         to="/kompass"
