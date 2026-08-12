@@ -5,6 +5,9 @@
   "routes": [
     { "pattern": "konsekvenskompassen.se", "custom_domain": true },
     { "pattern": "www.konsekvenskompassen.se", "custom_domain": true },
+    // Namntest: valsnack.se pekar på samma app tills namnfrågan är avgjord.
+    { "pattern": "valsnack.se", "custom_domain": true },
+    { "pattern": "www.valsnack.se", "custom_domain": true },
   ],
   "compatibility_date": "2025-10-08",
   "compatibility_flags": ["nodejs_compat"],
