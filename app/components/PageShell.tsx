@@ -1,11 +1,13 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router";
+import { Logo } from "./Logo";
 
 export function PageShell({ children }: { children: ReactNode }) {
   return (
     <main className="mx-auto max-w-2xl px-6 py-10">
       <header className="mb-8 border-b border-gray-200 pb-5 dark:border-gray-800">
-        <Link to="/" className="text-xl font-bold hover:underline">
+        <Link to="/" className="inline-flex items-center gap-2.5 text-xl font-bold hover:underline">
+          <Logo size={28} />
           Valsnack
         </Link>
       </header>

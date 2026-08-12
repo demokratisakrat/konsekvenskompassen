@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import type { Route } from "./+types/kompass";
 import { Markdown } from "../components/Markdown";
+import { Logo } from "../components/Logo";
 
 export function meta(_: Route.MetaArgs) {
   return [{ title: "Valsnack" }];
@@ -276,7 +277,10 @@ export default function Kompass() {
               ← Startsidan
             </Link>
           </p>
-          <h1 className="mt-1 text-xl font-bold">Valsnack</h1>
+          <div className="mt-1 flex items-center gap-2.5">
+            <Logo size={26} />
+            <h1 className="text-xl font-bold">Valsnack</h1>
+          </div>
           <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
             En valkompass som inte bara frågar vad du tycker — den visar vad
             dina svar kostar, och vem som får betala.

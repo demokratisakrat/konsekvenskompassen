@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import type { Route } from "./+types/home";
+import { Logo } from "../components/Logo";
 
 export function meta(_: Route.MetaArgs) {
   const description =
@@ -10,10 +11,9 @@ export function meta(_: Route.MetaArgs) {
     { property: "og:title", content: "Valsnack" },
     { property: "og:description", content: description },
     { property: "og:type", content: "website" },
-    {
-      property: "og:image",
-      content: "https://valsnack.se/icon-512.png",
-    },
+    { property: "og:image", content: "https://valsnack.se/og-image.png" },
+    { property: "og:image:width", content: "1200" },
+    { property: "og:image:height", content: "630" },
     { name: "twitter:card", content: "summary" },
   ];
 }
@@ -21,9 +21,10 @@ export function meta(_: Route.MetaArgs) {
 export default function Home() {
   return (
     <main className="mx-auto flex min-h-screen max-w-2xl flex-col px-6 py-16">
-      <h1 className="text-3xl font-bold tracking-tight">
-        Valsnack
-      </h1>
+      <div className="flex items-center gap-4">
+        <Logo size={56} />
+        <h1 className="text-3xl font-bold tracking-tight">Valsnack</h1>
+      </div>
       <p className="mt-6 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
         En valkompass som inte bara frågar vad du tycker — den visar vad dina
         svar kostar, och vem som får betala.
