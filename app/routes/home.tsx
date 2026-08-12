@@ -31,10 +31,10 @@ export default function Home() {
       <p className="mt-4 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
         Den politiska debatten pressar varje fråga mot svart eller vitt. Då
         försvinner platsen där de flesta verkliga avvägningarna faktiskt
-        ligger — i ett ärligt "både och". Kompassen är byggd för den platsen:
-        i ett samtal i lugn och ro synliggör den målkonflikter, systemeffekter
-        och tidshorisonter bakom dina ståndpunkter — även där de träffar din
-        egen situation.
+        ligger — i ett ärligt "både och". Valsnack är en plats där du kan
+        bolla dina tankar inför valet i lugn och ro: ett samtal som
+        synliggör målkonflikter, systemeffekter och tidshorisonter bakom
+        dina ståndpunkter — även där de träffar din egen situation.
       </p>
       <Link
         to="/kompass"
