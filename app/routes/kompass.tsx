@@ -41,6 +41,13 @@ export default function Kompass() {
 
   const [quickChoices, setQuickChoices] = useState<string[] | null>(null);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  // Pekskärm → tipsa om tangentbordets dikteringsmikrofon i stället för
+  // Enter-genvägarna. Sätts i effect så SSR och klient renderar lika.
+  const [isTouch, setIsTouch] = useState(false);
+  useEffect(() => {
+    setIsTouch(navigator.maxTouchPoints > 0);
+  }, []);
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [feedbackPending, setFeedbackPending] = useState(false);
   const [comment, setComment] = useState("");
@@ -288,13 +295,21 @@ export default function Kompass() {
     }
   }
 
-  function downloadConversation() {
-    // Skriv ut den dolda utskriftsvyn — "Spara som PDF" i utskriftsdialogen.
-    // PDF:en skapas helt lokalt i webbläsaren; inget skickas någonstans.
-    const previousTitle = document.title;
-    document.title = `valsnack-samtal-${new Date().toISOString().slice(0, 10)}`;
-    window.print();
-    document.title = previousTitle;
+  async function downloadConversation() {
+    // PDF:en byggs helt lokalt i webbläsaren; inget skickas någonstans.
+    // På mobil delas den via delningsarket, annars laddas den ner direkt —
+    // ingen krånglig utskriftsdialog. Utskriftsvyn finns kvar för Cmd/Ctrl+P.
+    if (exporting) return;
+    setExporting(true);
+    try {
+      const { saveConversationPdf } = await import("../lib/pdf-export");
+      await saveConversationPdf(shown);
+    } catch {
+      // Reservutväg om PDF-modulen inte kunde laddas: gamla utskriftsvägen.
+      window.print();
+    } finally {
+      setExporting(false);
+    }
   }
 
   return (
@@ -341,9 +356,10 @@ export default function Kompass() {
             <button
               type="button"
               onClick={downloadConversation}
-              className="text-sm text-gray-500 underline underline-offset-2 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+              disabled={exporting}
+              className="text-sm text-gray-500 underline underline-offset-2 hover:text-gray-900 disabled:opacity-60 dark:text-gray-400 dark:hover:text-white"
             >
-              Spara som PDF
+              {exporting ? "Skapar PDF …" : "Spara som PDF"}
             </button>
           )}
           {!feedbackSent && (
@@ -437,7 +453,11 @@ export default function Kompass() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Skriv ditt svar... (Enter för att skicka, Shift+Enter för ny rad)"
+          placeholder={
+            isTouch
+              ? "Skriv ditt svar... eller diktera med 🎤 på tangentbordet"
+              : "Skriv ditt svar... (Enter för att skicka, Shift+Enter för ny rad)"
+          }
           disabled={pending}
           autoFocus
           rows={1}
