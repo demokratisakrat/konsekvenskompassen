@@ -12,4 +12,5 @@ export default [
   route("api/feedback", "routes/api.feedback.ts"),
   route("api/timing", "routes/api.timing.ts"),
   route("stats", "routes/stats.tsx"),
+  route("design", "routes/design.tsx"),
 ] satisfies RouteConfig;
