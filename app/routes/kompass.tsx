@@ -36,6 +36,7 @@ export default function Kompass() {
   const stepRef = useRef(1);
   const step5LoggedRef = useRef(false);
 
+  const [quickChoices, setQuickChoices] = useState<string[] | null>(null);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [feedbackPending, setFeedbackPending] = useState(false);
@@ -58,9 +59,27 @@ export default function Kompass() {
     }).catch(() => {});
   }
 
+  // Sista raden "[VAL: A | B]" är modellens knappförslag — plocka ut och rensa.
+  const CHOICES_RE = /\n?\s*\[VAL:\s*([^\]]+)\]\s*$/;
+
+  function extractChoices(raw: string): { text: string; choices: string[] | null } {
+    const m = raw.trimEnd().match(CHOICES_RE);
+    if (!m) return { text: raw, choices: null };
+    const choices = m[1]
+      .split("|")
+      .map((c) => c.trim())
+      .filter(Boolean)
+      .slice(0, 3);
+    return {
+      text: raw.trimEnd().replace(CHOICES_RE, ""),
+      choices: choices.length > 0 ? choices : null,
+    };
+  }
+
   async function send(history: ChatMessage[]) {
     setPending(true);
     setError(null);
+    setQuickChoices(null);
     setStreamingText("");
     setWaitSeconds(0);
     let text = "";
@@ -125,7 +144,9 @@ export default function Kompass() {
     } finally {
       clearInterval(waitTimer);
       if (text) {
-        setMessages([...history, { role: "assistant", content: text }]);
+        const { text: cleaned, choices } = extractChoices(text);
+        setMessages([...history, { role: "assistant", content: cleaned }]);
+        setQuickChoices(choices);
       }
       // Steg 5 är sista steget — ingen nästa stegmarkör stänger dess varv.
       // Logga varvet när matchningssvaret är färdigproducerat: det mäter
@@ -207,7 +228,7 @@ export default function Kompass() {
   // chattens höjd, vilket annars lämnar historiken halvt urscrollad.
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, streamingText, feedbackOpen, feedbackSent, commentSent]);
+  }, [messages, streamingText, feedbackOpen, feedbackSent, commentSent, quickChoices]);
 
   // När analysen (steg 4) är klar: öppna feedbackpanelen en gång automatiskt —
   // headerlänken är lätt att missa i just det ögonblick då folk vill tycka till.
@@ -345,10 +366,33 @@ export default function Kompass() {
             </div>
           ),
         )}
+        {quickChoices && !pending && (
+          <div className="flex flex-wrap gap-2">
+            {quickChoices.map((choice) => (
+              <button
+                key={choice}
+                type="button"
+                onClick={() => {
+                  const history: ChatMessage[] = [
+                    ...messages,
+                    { role: "user", content: choice },
+                  ];
+                  setMessages(history);
+                  send(history);
+                }}
+                className="rounded-full border border-gray-300 px-4 py-1.5 text-sm font-medium hover:bg-gray-900 hover:text-white dark:border-gray-700 dark:hover:bg-white dark:hover:text-gray-900"
+              >
+                {choice}
+              </button>
+            ))}
+          </div>
+        )}
         {streamingText !== null &&
           (streamingText ? (
             <div className="max-w-[80%] rounded-2xl border border-gray-200 px-4 py-2 dark:border-gray-800">
-              <Markdown compact>{streamingText}</Markdown>
+              <Markdown compact>
+                {streamingText.replace(/\n?\s*\[VAL:[^\]]*\]?\s*$/, "")}
+              </Markdown>
             </div>
           ) : (
             <div className="max-w-[80%] rounded-2xl border border-gray-200 px-4 py-2 text-gray-400 dark:border-gray-800">
