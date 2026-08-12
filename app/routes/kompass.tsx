@@ -357,7 +357,18 @@ export default function Kompass() {
           ))}
         {error && (
           <div className="max-w-[80%] rounded-2xl bg-red-100 px-4 py-2 text-red-800 dark:bg-red-950 dark:text-red-200">
-            Fel: {error}
+            <p>{error}</p>
+            {/* Retry bara när historiken slutar med användarens meddelande —
+                vid delvis mottaget svar gäller "skriv fortsätt"-vägen istället. */}
+            {messages[messages.length - 1]?.role === "user" && !pending && (
+              <button
+                type="button"
+                onClick={() => send(messages)}
+                className="mt-2 rounded-md border border-red-300 px-3 py-1 text-sm font-medium hover:bg-red-200 dark:border-red-800 dark:hover:bg-red-900"
+              >
+                Försök igen
+              </button>
+            )}
           </div>
         )}
         <div ref={bottomRef} />
