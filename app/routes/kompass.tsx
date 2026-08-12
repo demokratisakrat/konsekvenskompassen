@@ -285,11 +285,25 @@ export default function Kompass() {
             En valkompass som inte bara frågar vad du tycker — den visar vad
             dina svar kostar, och vem som får betala.
           </p>
-          <p className="mt-2 text-xs text-gray-400 dark:text-gray-500">
-            {currentStep <= 4
-              ? `Steg ${currentStep} av 4 — ${STEP_LABELS[currentStep]}`
-              : `Tillval — ${STEP_LABELS[currentStep]}`}
-          </p>
+          <div className="mt-3">
+            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              {currentStep <= 4
+                ? `Steg ${currentStep} av 4 — ${STEP_LABELS[currentStep]}`
+                : `Tillval — ${STEP_LABELS[currentStep]}`}
+            </p>
+            <div className="mt-1.5 flex max-w-xs gap-1.5">
+              {[1, 2, 3, 4].map((s) => (
+                <div
+                  key={s}
+                  className={`h-1.5 flex-1 rounded-full ${
+                    currentStep >= s
+                      ? "bg-gray-900 dark:bg-white"
+                      : "bg-gray-200 dark:bg-gray-800"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
         </div>
         <div className="flex shrink-0 flex-col items-end gap-1">
           {shown.length > 0 && (
