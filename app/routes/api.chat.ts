@@ -119,16 +119,31 @@ export async function action({ request, context }: Route.ActionArgs) {
           logChatEvent(analytics, { sessionId, turnIndex, step: resolvedStep, messageCount, mode: "live" });
         }
       } catch (err) {
-        let message = "Okänt fel";
+        // Full detalj till loggarna, aldrig rå JSON till användaren.
+        console.log(
+          JSON.stringify({
+            event: "chat_error",
+            timestamp: new Date().toISOString(),
+            sessionId: sessionId ?? "unknown",
+            detail: err instanceof Error ? err.message : String(err),
+          }),
+        );
+        let message = "Något gick fel. Skriv gärna ditt svar igen om en stund.";
         let errorType = "unknown";
-        if (err instanceof Anthropic.RateLimitError) {
-          message = "Rate limited — försök igen om en stund.";
+        const raw = err instanceof Error ? err.message : "";
+        if (
+          err instanceof Anthropic.APIError &&
+          (err.status === 529 || /overloaded/i.test(raw))
+        ) {
+          message =
+            "AI-tjänsten är tillfälligt överbelastad — vänta en liten stund och skicka ditt svar igen. Samtalet är kvar.";
+          errorType = "overloaded";
+        } else if (err instanceof Anthropic.RateLimitError) {
+          message = "För många förfrågningar just nu — vänta en stund och skicka igen.";
           errorType = "rate_limit";
         } else if (err instanceof Anthropic.APIError) {
-          message = `LLM-fel (${err.status}): ${err.message}`;
-          errorType = `api_error_${err.status}`;
-        } else if (err instanceof Error) {
-          message = err.message;
+          message = `Något gick fel hos AI-tjänsten${err.status ? ` (${err.status})` : ""} — vänta en stund och skicka ditt svar igen.`;
+          errorType = `api_error_${err.status ?? "instream"}`;
         }
         logChatEvent(analytics, {
           sessionId,
