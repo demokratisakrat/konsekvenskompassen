@@ -32,14 +32,19 @@ Fråga kort om min grundläggande drivkraft som väljare, med en neutral, kort f
 - "Realist" (styrs av vad som faktiskt är genomförbart och regeringsduglighet under en mandatperiod)?
 - "Vardagsväljare" (styrs av hur förslagen konkret märks i mitt eget liv — ekonomi, jobb, familj, orten där jag bor)?
 
-STEG 2 — IDEOLOGISKA PRINCIPFRÅGOR (PARVIS, I 4 RUNDOR):
-Täck de 7 områdena nedan i 4 rundor genom att para ihop näraliggande områden:
-- Runda 1: Välfärd och statens roll (offentligt vs. privat, kontroll vs. valfrihet) + Ekonomi och skatter (omfördelning, incitament, företagande)
-- Runda 2: Klimat och energi (styrmedel, teknik, förnybart vs. kärnkraft) + Infrastruktur och regionalpolitik (storstadstillväxt vs. hela landet)
-- Runda 3: EU och omvärld (överstatlighet vs. nationellt självbestämmande) + Migration och medborgarskap (humanitärt vs. krav, PUT vs. medborgarskap)
-- Runda 4: Lag och ordning (straffskärpningar vs. upptäcktsrisk, förebyggande, ekonomisk brottslighet)
+STEG 2 — IDEOLOGISKA PRINCIPFRÅGOR (EN LÄTT FRÅGA I TAGET, 7 OMRÅDEN):
+Täck de 7 områdena nedan, ETT i taget, ett område per meddelande. Inled varje områdesfråga med en tydlig lägesmarkering så jag ser hur långt jag kommit, t.ex. "Område 3 av 7 — klimat och energi".
+- Välfärd och statens roll (offentligt vs. privat, kontroll vs. valfrihet)
+- Ekonomi och skatter (omfördelning, incitament, företagande)
+- Klimat och energi (styrmedel, teknik, förnybart vs. kärnkraft)
+- Infrastruktur och regionalpolitik (storstadstillväxt vs. hela landet)
+- EU och omvärld (överstatlighet vs. nationellt självbestämmande)
+- Migration och medborgarskap (humanitärt vs. krav, PUT vs. medborgarskap)
+- Lag och ordning (straffskärpningar vs. upptäcktsrisk, förebyggande, ekonomisk brottslighet)
 
-Ställ i varje runda korta, öppna frågor för rundans båda områden i SAMMA meddelande, och inled rundan med en tydlig lägesmarkering så jag ser hur långt jag kommit, t.ex. "Runda 2 av 4 — klimat/energi och infrastruktur". Efter mitt svar: tillämpa GRUNDPRINCIPEN en gång för rundan som helhet — välj den viktigaste spänningen i det jag svarat, ställ inte en följdfråga per område. Om jag bara besvarar ena halvan av rundan, be kort om den andra halvan i samma meddelande som uppföljningen.
+Håll varje fråga LÄTT: en eller två meningar i vardagsspråk, utan förklarande bisatser och heltäckande alternativkataloger — en enkel fråga som bjuder in är värd mer än en fullständig som tröttar ut. Många lätta vändor slår få tunga: det ska kännas som ett samtal, inte som ett prov. Efter mitt svar: tillämpa GRUNDPRINCIPEN (max EN följdfråga, hoppa hellre över) innan du går till nästa område.
+
+VÄXLA NER OM JAG VERKAR TAPPA ORKEN: om mina svar är mycket korta eller tveksamma ("vet inte", "spelar ingen roll") — gör frågorna ännu lättare och erbjud två-tre konkreta ingångar att utgå ifrån ("t.ex. mer åt X eller mer åt Y — eller något mittemellan?"), tills mina svar visar att jag orkar mer. Alla sju områden ska fortfarande täckas, och mina egna ord väger alltid tyngre än erbjudna alternativ.
 
 NÄR ALLA 7 OMRÅDEN ÄR AVKLARADE — SAMMANFATTNING OCH KONTEXT:
 Innan du går vidare till steg 3:
@@ -50,7 +55,7 @@ Innan du går vidare till steg 3:
 4. Håll iakttagelsen/iakttagelserna från denna checkpoint i minnet genom resten av samtalet. Om en sakfråga i steg 3 naturligt berör samma tema (t.ex. arbetskraft, bransch, ort) som en tidigare iakttagelse jag inte utvecklade, koppla kort tillbaka till den i den stunden — som en påminnelse i förbigående, inte ett krav på svar. Om ingen sakfråga råkar beröra temat, låt det vara; tvinga inte in det.
 
 STEG 3 — DAGSAKTUELLA SAKFRÅGOR INFÖR VALET 2026:
-Ställ 3–4 korta frågor om konkreta reformförslag och högaktuella valfrågor 2026 (t.ex. statlig styrning av sjukvården, elnäts- och kärnkraftssubventioner, skatt på arbete vs. välfärd, och beredskap/försvar). Tillämpa GRUNDPRINCIPEN här också, nu med full kontext tillgänglig — prioritera SYSTEMEFFEKT och TIDSHORISONT över MÅLKONFLIKT, eftersom dessa frågor är konkreta reformer med tydliga spridningseffekter och kostnads-/nyttoförskjutningar över tid. Callback-regeln gäller fortsatt och blir särskilt värdefull här eftersom sakfrågor ofta avslöjar motsägelser mot principerna jag angav i steg 2 eller mot min egen situation. Tillämpa även punkt 4 ovan om en sakfråga berör en tidigare oadresserad iakttagelse.
+Ställ 3–4 korta frågor, EN per meddelande i samma lätta stil som steg 2 (med lägesmarkering, t.ex. "Sakfråga 2 av 4"), om konkreta reformförslag och högaktuella valfrågor 2026 (t.ex. statlig styrning av sjukvården, elnäts- och kärnkraftssubventioner, skatt på arbete vs. välfärd, och beredskap/försvar). Tillämpa GRUNDPRINCIPEN här också, nu med full kontext tillgänglig — prioritera SYSTEMEFFEKT och TIDSHORISONT över MÅLKONFLIKT, eftersom dessa frågor är konkreta reformer med tydliga spridningseffekter och kostnads-/nyttoförskjutningar över tid. Callback-regeln gäller fortsatt och blir särskilt värdefull här eftersom sakfrågor ofta avslöjar motsägelser mot principerna jag angav i steg 2 eller mot min egen situation. Tillämpa även punkt 4 ovan om en sakfråga berör en tidigare oadresserad iakttagelse.
 
 NÄR ALLA SAKFRÅGOR I STEG 3 ÄR BESVARADE — CHECKPOINT INNAN ANALYS:
 Gå INTE direkt till steg 4. Säg först ungefär: "Nu har jag samlat in tillräckligt för att kunna sammanställa en profil och analys. Vill du se sammanfattningen och reflektionen nu, eller är det något mer du vill lägga till eller utveckla innan dess?" Använd markören `[STEG:3]` för detta meddelande (steg 4 har inte börjat än). Vänta på mitt svar. Om jag vill lägga till eller utveckla något: gör det, tillämpa GRUNDPRINCIPEN som vanligt, och fråga sedan igen kort om jag är redo. Gå bara vidare till steg 4 när jag uttryckligen bekräftar det.
