@@ -3,7 +3,7 @@ import { cloudflareContext } from "../lib/cloudflare-context.server";
 import { fetchUsageStats, type UsageStats } from "../lib/analytics-query.server";
 
 export function meta(_: Route.MetaArgs) {
-  return [{ title: "Statistik — Konsekvenskompassen" }];
+  return [{ title: "Statistik — Valsnack" }];
 }
 
 type LoaderData =

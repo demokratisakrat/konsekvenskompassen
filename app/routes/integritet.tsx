@@ -3,7 +3,7 @@ import { PageShell } from "../components/PageShell";
 
 export function meta(_: Route.MetaArgs) {
   return [
-    { title: "Integritet — Konsekvenskompassen" },
+    { title: "Integritet — Valsnack" },
     {
       name: "description",
       content:
@@ -37,7 +37,7 @@ export default function Integritet() {
             på våra servrar.
           </li>
           <li>
-            Knappen "Ladda ner samtalet" skapar filen lokalt i din webbläsare;
+            Knappen "Spara som PDF" skapar dokumentet lokalt i din webbläsare;
             inget skickas någonstans.
           </li>
         </ul>

@@ -5,7 +5,7 @@ import { PROFILES } from "../lib/profiles";
 
 export function meta(_: Route.MetaArgs) {
   return [
-    { title: "Kunskapsunderlag — Konsekvenskompassen" },
+    { title: "Kunskapsunderlag — Valsnack" },
     {
       name: "description",
       content:

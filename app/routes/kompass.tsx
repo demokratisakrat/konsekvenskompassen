@@ -4,7 +4,7 @@ import type { Route } from "./+types/kompass";
 import { Markdown } from "../components/Markdown";
 
 export function meta(_: Route.MetaArgs) {
-  return [{ title: "Konsekvenskompassen" }];
+  return [{ title: "Valsnack" }];
 }
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
@@ -258,7 +258,7 @@ export default function Kompass() {
     // Skriv ut den dolda utskriftsvyn — "Spara som PDF" i utskriftsdialogen.
     // PDF:en skapas helt lokalt i webbläsaren; inget skickas någonstans.
     const previousTitle = document.title;
-    document.title = `konsekvenskompassen-samtal-${new Date().toISOString().slice(0, 10)}`;
+    document.title = `valsnack-samtal-${new Date().toISOString().slice(0, 10)}`;
     window.print();
     document.title = previousTitle;
   }
@@ -274,7 +274,7 @@ export default function Kompass() {
               ← Startsidan
             </Link>
           </p>
-          <h1 className="mt-1 text-xl font-bold">Konsekvenskompassen</h1>
+          <h1 className="mt-1 text-xl font-bold">Valsnack</h1>
           <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
             En valkompass som inte bara frågar vad du tycker — den visar vad
             dina svar kostar, och vem som får betala.
@@ -428,9 +428,9 @@ export default function Kompass() {
 
       {/* Utskriftsvy — enbart synlig vid utskrift/Spara som PDF */}
       <div className="hidden print:block">
-        <h1 className="text-2xl font-bold">Konsekvenskompassen — mitt samtal</h1>
+        <h1 className="text-2xl font-bold">Valsnack — mitt samtal</h1>
         <p className="mb-6 mt-1 text-sm text-gray-500">
-          {new Date().toLocaleDateString("sv-SE")} · konsekvenskompassen.se
+          {new Date().toLocaleDateString("sv-SE")} · valsnack.se
         </p>
         <div className="space-y-4">
           {shown.map((m, i) =>

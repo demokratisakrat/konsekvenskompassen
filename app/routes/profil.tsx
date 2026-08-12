@@ -9,8 +9,8 @@ export function meta({ params }: Route.MetaArgs) {
   return [
     {
       title: profile
-        ? `${profile.title} — Konsekvenskompassen`
-        : "Okänd profil — Konsekvenskompassen",
+        ? `${profile.title} — Valsnack`
+        : "Okänd profil — Valsnack",
     },
     ...(profile
       ? [{ name: "description", content: profile.description }]

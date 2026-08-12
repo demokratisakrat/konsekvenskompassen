@@ -5,14 +5,14 @@ export function meta(_: Route.MetaArgs) {
   const description =
     "En valkompass som inte bara frågar vad du tycker — den visar vad dina svar kostar, och vem som får betala.";
   return [
-    { title: "Konsekvenskompassen" },
+    { title: "Valsnack" },
     { name: "description", content: description },
-    { property: "og:title", content: "Konsekvenskompassen" },
+    { property: "og:title", content: "Valsnack" },
     { property: "og:description", content: description },
     { property: "og:type", content: "website" },
     {
       property: "og:image",
-      content: "https://konsekvenskompassen.se/icon-512.png",
+      content: "https://valsnack.se/icon-512.png",
     },
     { name: "twitter:card", content: "summary" },
   ];
@@ -22,7 +22,7 @@ export default function Home() {
   return (
     <main className="mx-auto flex min-h-screen max-w-2xl flex-col px-6 py-16">
       <h1 className="text-3xl font-bold tracking-tight">
-        Konsekvenskompassen
+        Valsnack
       </h1>
       <p className="mt-6 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
         En valkompass som inte bara frågar vad du tycker — den visar vad dina
@@ -40,7 +40,7 @@ export default function Home() {
         to="/kompass"
         className="mt-6 inline-flex w-fit items-center justify-center rounded-lg bg-gray-900 px-6 py-3 text-base font-semibold text-white hover:bg-gray-700 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200"
       >
-        Starta kompassen
+        Starta samtalet
       </Link>
       <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
         Tar en kvart eller två — du bestämmer själv hur mycket du utvecklar

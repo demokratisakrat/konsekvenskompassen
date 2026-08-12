@@ -5,7 +5,7 @@ import metodikMd from "../content/metodik.md?raw";
 
 export function meta(_: Route.MetaArgs) {
   return [
-    { title: "Metodik & källor — Konsekvenskompassen" },
+    { title: "Metodik & källor — Valsnack" },
     {
       name: "description",
       content:

@@ -3,10 +3,10 @@ import { PageShell } from "../components/PageShell";
 
 export function meta(_: Route.MetaArgs) {
   return [
-    { title: "Om & kontakt — Konsekvenskompassen" },
+    { title: "Om & kontakt — Valsnack" },
     {
       name: "description",
-      content: "Vem som står bakom Konsekvenskompassen och hur du når oss.",
+      content: "Vem som står bakom Valsnack och hur du når oss.",
     },
   ];
 }
@@ -18,7 +18,7 @@ export default function Om() {
 
       <div className="mt-4 space-y-4 leading-relaxed text-gray-700 dark:text-gray-300">
         <p>
-          Konsekvenskompassen är ett fristående, ideellt enmansprojekt. Det
+          Valsnack är ett fristående, ideellt enmansprojekt. Det
           har ingen koppling till något parti eller någon organisation, ingen
           extern finansiering och inga annonser — och därmed inget incitament
           att knuffa dig åt något håll. Målet är eftertanke, inte att tala om
