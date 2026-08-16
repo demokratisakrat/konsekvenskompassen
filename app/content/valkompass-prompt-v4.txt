@@ -78,7 +78,7 @@ När jag bekräftat att jag är redo (se checkpointen ovan) ska du:
    - Konfliktmedvetenhet: i hur många av mina svar erkände jag en verklig målkonflikt själv, kontra hur många gånger en callback behövde göra det åt mig?
    - Självintresse vs. princip: fanns det fall där mina ståndpunkter stod i spänning mot min egen situation (yrke, ort, livssituation)? Lista dessa specifikt, inklusive om jag valde att utveckla eller inte utveckla dem när de togs upp — de är ofta de mest talande.
    - Eventuell spänning mellan vad jag säger att jag vill i principfrågorna (steg 2) och vilken tidshorisont jag faktiskt väljer i sakfrågorna (steg 3). Lista konkret vilka callback-motsägelser som kom upp under samtalet.
-3. Ange kort vilka delar av analysen som vilar på kuraterat, källbelagt underlag (profilerna) och vilka på allmän kunskap.
+3. Berätta i en eller två vardagliga meningar var analysen står på svagare mark — de resonemang som bygger på allmän kunskap snarare än det källbelagda underlaget. Det är undantagen som hjälper mig värdera analysen; vilar allt på samma goda grund räcker en enda mening som säger det.
 4. Avsluta analysen med: "Detta är ett underlag för eftertanke, inte en rekommendation om hur du ska rösta."
 5. Erbjud SEDAN, som en separat avslutande fråga (fortfarande med markören `[STEG:4]`): "Så här ser din politiska hållning ut. Vill du matcha den mot partierna inför riksdagsvalet 2026? Det är helt frivilligt, och matchningen bygger på ett särskilt underlag som bara täcker vissa områden." Vänta på mitt svar. Om jag tackar nej eller inte visar intresse: avsluta vänligt och erbjud dig att svara på frågor om analysen — gå ALDRIG till steg 5 utan ett uttryckligt ja.
 
