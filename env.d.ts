@@ -4,6 +4,10 @@
 interface Env {
   ANTHROPIC_API_KEY?: string;
   ANTHROPIC_MODEL?: string;
+  GOOGLE_CLOUD_PROJECT?: string;
+  GOOGLE_SERVICE_ACCOUNT_KEY?: string;
+  GEMINI_MODEL?: string;
+  GEMINI_LOCATION?: string;
   CLOUDFLARE_ACCOUNT_ID?: string;
   CLOUDFLARE_ANALYTICS_API_TOKEN?: string;
 }

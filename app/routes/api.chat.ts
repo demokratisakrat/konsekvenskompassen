@@ -1,9 +1,11 @@
-import Anthropic from "@anthropic-ai/sdk";
 import type { Route } from "./+types/api.chat";
 import { buildSystemPrompt } from "../lib/system-prompt.server";
 import { mockResponse } from "../lib/mock-responses.server";
 import { cloudflareContext } from "../lib/cloudflare-context.server";
 import { logChatEvent } from "../lib/usage-log.server";
+import { anthropicProvider } from "../lib/providers/anthropic.server";
+import { geminiProvider } from "../lib/providers/gemini.server";
+import type { ProviderEnv } from "../lib/providers/types";
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
@@ -12,6 +14,10 @@ const STEP_MARKER_GIVEUP_LENGTH = 40;
 
 function sse(event: string, data: unknown): Uint8Array {
   return new TextEncoder().encode(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
+}
+
+function selectProvider(env: ProviderEnv) {
+  return env.CHAT_PROVIDER === "gemini" ? geminiProvider : anthropicProvider;
 }
 
 export async function action({ request, context }: Route.ActionArgs) {
@@ -28,12 +34,11 @@ export async function action({ request, context }: Route.ActionArgs) {
 
   const { env } = context.get(cloudflareContext);
   const analytics = env.DEMOKRATISAKRAT_ANALYTICS;
-  const apiKey = env.ANTHROPIC_API_KEY;
-  const model = env.ANTHROPIC_MODEL || "claude-sonnet-5";
+  const provider = selectProvider(env);
 
   const stream = new ReadableStream({
     async start(controller) {
-      if (!apiKey) {
+      if (!provider.isConfigured(env)) {
         const raw = mockResponse(turnIndex);
         const match = raw.match(STEP_MARKER);
         const step = match ? Number(match[1]) : 1;
@@ -49,55 +54,41 @@ export async function action({ request, context }: Route.ActionArgs) {
       let stepSent = false;
       let resolvedStep = 1;
 
-      try {
-        const client = new Anthropic({ apiKey });
-        const anthropicStream = client.messages.stream({
-          model,
-          // claude-sonnet-5 tänker adaptivt som standard och max_tokens är ett
-          // hårt tak på tänkande + svarstext tillsammans — för lågt tak kapar
-          // långa svar (steg 4-analysen) mitt i meningen med stop_reason max_tokens.
-          max_tokens: 32000,
-          system: [
-            { type: "text", text: buildSystemPrompt(), cache_control: { type: "ephemeral" } },
-          ],
-          messages,
-        });
-
-        let stopReason: string | null = null;
-        for await (const event of anthropicStream) {
-          if (event.type === "message_delta" && event.delta.stop_reason) {
-            stopReason = event.delta.stop_reason;
-          }
-          if (event.type !== "content_block_delta" || event.delta.type !== "text_delta") {
-            continue;
-          }
-          const chunk = event.delta.text;
-          if (stepSent) {
-            controller.enqueue(sse("delta", { text: chunk }));
-            continue;
-          }
-          buffer += chunk;
-          const match = buffer.match(STEP_MARKER);
-          if (match) {
-            resolvedStep = Number(match[1]);
-            controller.enqueue(sse("step", { step: resolvedStep }));
-            const rest = buffer.slice(match[0].length);
-            if (rest) controller.enqueue(sse("delta", { text: rest }));
-            stepSent = true;
-            buffer = "";
-          } else if (buffer.length > STEP_MARKER_GIVEUP_LENGTH) {
-            controller.enqueue(sse("step", { step: resolvedStep }));
-            controller.enqueue(sse("delta", { text: buffer }));
-            stepSent = true;
-            buffer = "";
-          }
+      function handleDelta(chunk: string) {
+        if (stepSent) {
+          controller.enqueue(sse("delta", { text: chunk }));
+          return;
         }
+        buffer += chunk;
+        const match = buffer.match(STEP_MARKER);
+        if (match) {
+          resolvedStep = Number(match[1]);
+          controller.enqueue(sse("step", { step: resolvedStep }));
+          const rest = buffer.slice(match[0].length);
+          if (rest) controller.enqueue(sse("delta", { text: rest }));
+          stepSent = true;
+          buffer = "";
+        } else if (buffer.length > STEP_MARKER_GIVEUP_LENGTH) {
+          controller.enqueue(sse("step", { step: resolvedStep }));
+          controller.enqueue(sse("delta", { text: buffer }));
+          stepSent = true;
+          buffer = "";
+        }
+      }
+
+      try {
+        const outcome = await provider.streamChat(
+          env,
+          { system: buildSystemPrompt(), messages },
+          handleDelta,
+        );
+
         if (!stepSent && buffer) {
           controller.enqueue(sse("step", { step: resolvedStep }));
           controller.enqueue(sse("delta", { text: buffer }));
         }
 
-        if (stopReason === null || stopReason === "max_tokens") {
+        if (outcome !== "complete") {
           // Strömmen tog slut utan att modellen blev klar (avbruten uppströms
           // eller max_tokens) — säg det ärligt istället för att låtsas vara klar.
           controller.enqueue(
@@ -112,7 +103,7 @@ export async function action({ request, context }: Route.ActionArgs) {
             step: resolvedStep,
             messageCount,
             mode: "live",
-            errorType: stopReason === "max_tokens" ? "max_tokens" : "truncated_stream",
+            errorType: outcome === "max_tokens" ? "max_tokens" : "truncated_stream",
           });
         } else {
           controller.enqueue(sse("done", {}));
@@ -125,26 +116,11 @@ export async function action({ request, context }: Route.ActionArgs) {
             event: "chat_error",
             timestamp: new Date().toISOString(),
             sessionId: sessionId ?? "unknown",
+            provider: provider.name,
             detail: err instanceof Error ? err.message : String(err),
           }),
         );
-        let message = "Något gick fel. Skriv gärna ditt svar igen om en stund.";
-        let errorType = "unknown";
-        const raw = err instanceof Error ? err.message : "";
-        if (
-          err instanceof Anthropic.APIError &&
-          (err.status === 529 || /overloaded/i.test(raw))
-        ) {
-          message =
-            "AI-tjänsten är tillfälligt överbelastad — vänta en liten stund och skicka ditt svar igen. Samtalet är kvar.";
-          errorType = "overloaded";
-        } else if (err instanceof Anthropic.RateLimitError) {
-          message = "För många förfrågningar just nu — vänta en stund och skicka igen.";
-          errorType = "rate_limit";
-        } else if (err instanceof Anthropic.APIError) {
-          message = `Något gick fel hos AI-tjänsten${err.status ? ` (${err.status})` : ""} — vänta en stund och skicka ditt svar igen.`;
-          errorType = `api_error_${err.status ?? "instream"}`;
-        }
+        const { message, errorType } = provider.describeError(err);
         logChatEvent(analytics, {
           sessionId,
           turnIndex,

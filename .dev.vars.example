@@ -2,6 +2,18 @@ ANTHROPIC_API_KEY=din-api-nyckel-har
 # Valfritt, standard är claude-sonnet-5:
 # ANTHROPIC_MODEL=claude-sonnet-5
 
+# AI-leverantör: "anthropic" (standard) eller "gemini". Sätts i produktion
+# via vars i wrangler.jsonc; här kan den overridas för lokal utveckling.
+# Gemini går via Vertex AI pinnad till EU-region (dataresidens) och kräver
+# ett GCP-projekt med Vertex AI API aktiverat samt en service account-nyckel
+# (roll: "Vertex AI User") som EN rad JSON.
+# CHAT_PROVIDER=gemini
+# GOOGLE_CLOUD_PROJECT=ditt-gcp-projekt-id
+# GOOGLE_SERVICE_ACCOUNT_KEY={"type":"service_account","client_email":"...","private_key":"..."}
+# Valfritt, standard gemini-2.5-pro resp. europe-west4:
+# GEMINI_MODEL=gemini-2.5-pro
+# GEMINI_LOCATION=europe-west4
+
 # För /stats — token behöver "Account Analytics: Read"
 CLOUDFLARE_ACCOUNT_ID=ditt-konto-id
 CLOUDFLARE_ANALYTICS_API_TOKEN=din-analytics-token
