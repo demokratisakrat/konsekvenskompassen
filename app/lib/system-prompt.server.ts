@@ -1,4 +1,4 @@
-import promptV4 from "../content/valkompass-prompt-v4.txt?raw";
+import prompt from "../content/valkompass-prompt.txt?raw";
 import uiContext from "../content/ui-context.md?raw";
 import profilValfard from "../content/profil-valfard.md?raw";
 import profilLagOchOrdning from "../content/profil-lag-och-ordning.md?raw";
@@ -24,7 +24,7 @@ export function buildSystemPrompt(): string {
     profilInfrastruktur,
   ].join("\n\n---\n\n");
 
-  cached = `${promptV4}
+  cached = `${prompt}
 
 ---
 

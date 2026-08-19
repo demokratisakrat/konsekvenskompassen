@@ -1,4 +1,4 @@
-// Skriptat, påhittat samtal som följer formen av prompt v4. Används bara
+// Skriptat, påhittat samtal som följer samtalspromptens form. Används bara
 // när ANTHROPIC_API_KEY saknas, så man kan klicka igenom UI:t utan att
 // betala för riktiga API-anrop. Testar plumbing, inte AI-resonemang.
 
