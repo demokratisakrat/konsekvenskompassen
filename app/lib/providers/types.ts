@@ -10,6 +10,8 @@ export type ProviderEnv = {
   GOOGLE_SERVICE_ACCOUNT_KEY?: string;
   GEMINI_MODEL?: string;
   GEMINI_LOCATION?: string;
+  CLAUDE_VERTEX_MODEL?: string;
+  CLAUDE_VERTEX_LOCATION?: string;
   CHAT_PROVIDER?: string;
 };
 

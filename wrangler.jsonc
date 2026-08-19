@@ -12,7 +12,7 @@
   "compatibility_date": "2025-10-08",
   "compatibility_flags": ["nodejs_compat"],
   "vars": {
-    // "anthropic" eller "gemini" — se app/lib/providers/
+    // "anthropic", "claude-vertex" eller "gemini" — se app/lib/providers/
     "CHAT_PROVIDER": "anthropic",
   },
   "observability": {

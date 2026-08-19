@@ -1,7 +1,8 @@
 # AI-leverantörer
 
-Appen kan drivas av Anthropic (standard) eller Gemini. Växeln är `CHAT_PROVIDER`
-i `wrangler.jsonc` (`"anthropic"` | `"gemini"`), per deploy. Implementationerna
+Appen kan drivas av Anthropic direkt (standard), Claude via Vertex AI
+(EU-dataresidens) eller Gemini. Växeln är `CHAT_PROVIDER` i `wrangler.jsonc`
+(`"anthropic"` | `"claude-vertex"` | `"gemini"`), per deploy. Implementationerna
 ligger i `app/lib/providers/`; routen (`api.chat`) är leverantörsoberoende och
 äger SSE-protokollet, STEG-tolkningen och mock-läget.
 
@@ -9,6 +10,25 @@ ligger i `app/lib/providers/`; routen (`api.chat`) är leverantörsoberoende och
 
 claude-sonnet-5 via `@anthropic-ai/sdk`. Systemprompten cachas med
 `cache_control: ephemeral`. Secret: `ANTHROPIC_API_KEY`.
+
+## Claude via Vertex AI — EU-multiregion
+
+claude-sonnet-5 via Vertex AI:s EU-multiregion (`aiplatform.eu.rep.googleapis.com`,
+location `eu`) — samma modell som produktionen kör idag, med EU-dataresidens,
+till +10 % på tokenpriserna ($2,20/$11 mot $2/$10 direkt; samma cachemekanik).
+Samma Messages-format som direkt-API:et: modellen ligger i URL:en
+(`:streamRawPredict`), `anthropic_version: vertex-2023-10-16` i kroppen,
+prompt caching via `cache_control` fungerar. Auth delas med Gemini-vägen
+(service account + egenmintad OAuth-token, `google-auth.server.ts`).
+
+**Uppsättning:** utöver GCP-uppsättningen nedan krävs (1) att Claude Sonnet 5
+aktiverats i Model Garden för projektet (formulär med företagsuppgifter och
+Anthropics användarvillkor) och (2) kvot — nya projekt har 0 som standard för
+partnermodeller; kvotökning begärs i konsolen för de tre
+`eu_multi_region_online_prediction_*`-mätvärdena med dimension
+`anthropic-claude-sonnet` (begärt 2026-08-19: 30 req/min, 500k in-tokens/min,
+100k ut-tokens/min). Valfria vars: `CLAUDE_VERTEX_MODEL` (standard
+claude-sonnet-5), `CLAUDE_VERTEX_LOCATION` (standard `eu`).
 
 ## Gemini — via Vertex AI, EU-pinnad
 

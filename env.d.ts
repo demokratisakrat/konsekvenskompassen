@@ -8,6 +8,8 @@ interface Env {
   GOOGLE_SERVICE_ACCOUNT_KEY?: string;
   GEMINI_MODEL?: string;
   GEMINI_LOCATION?: string;
+  CLAUDE_VERTEX_MODEL?: string;
+  CLAUDE_VERTEX_LOCATION?: string;
   CLOUDFLARE_ACCOUNT_ID?: string;
   CLOUDFLARE_ANALYTICS_API_TOKEN?: string;
 }

@@ -14,6 +14,13 @@ ANTHROPIC_API_KEY=din-api-nyckel-har
 # GEMINI_MODEL=gemini-2.5-pro
 # GEMINI_LOCATION=europe-west4
 
+# Claude via Vertex AI EU-multiregion (samma GCP-uppsättning som ovan, plus
+# att Claude aktiverats i Model Garden för projektet):
+# CHAT_PROVIDER=claude-vertex
+# Valfritt, standard claude-sonnet-5 resp. eu:
+# CLAUDE_VERTEX_MODEL=claude-sonnet-5
+# CLAUDE_VERTEX_LOCATION=eu
+
 # För /stats — token behöver "Account Analytics: Read"
 CLOUDFLARE_ACCOUNT_ID=ditt-konto-id
 CLOUDFLARE_ANALYTICS_API_TOKEN=din-analytics-token

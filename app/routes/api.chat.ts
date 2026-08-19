@@ -4,6 +4,7 @@ import { mockResponse } from "../lib/mock-responses.server";
 import { cloudflareContext } from "../lib/cloudflare-context.server";
 import { logChatEvent } from "../lib/usage-log.server";
 import { anthropicProvider } from "../lib/providers/anthropic.server";
+import { claudeVertexProvider } from "../lib/providers/claude-vertex.server";
 import { geminiProvider } from "../lib/providers/gemini.server";
 import type { ProviderEnv } from "../lib/providers/types";
 
@@ -17,7 +18,9 @@ function sse(event: string, data: unknown): Uint8Array {
 }
 
 function selectProvider(env: ProviderEnv) {
-  return env.CHAT_PROVIDER === "gemini" ? geminiProvider : anthropicProvider;
+  if (env.CHAT_PROVIDER === "gemini") return geminiProvider;
+  if (env.CHAT_PROVIDER === "claude-vertex") return claudeVertexProvider;
+  return anthropicProvider;
 }
 
 export async function action({ request, context }: Route.ActionArgs) {
