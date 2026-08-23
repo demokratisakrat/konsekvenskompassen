@@ -79,7 +79,8 @@ export default function Kompass() {
       .split("|")
       .map((c) => c.trim())
       .filter(Boolean)
-      .slice(0, 3);
+      // Fyra, inte tre: steg 1 lägger "Vad väntar mig?" bredvid de tre profilerna.
+      .slice(0, 4);
     return {
       text: raw.trimEnd().replace(CHOICES_RE, ""),
       choices: choices.length > 0 ? choices : null,
@@ -410,23 +411,34 @@ export default function Kompass() {
         )}
         {quickChoices && !pending && (
           <div className="flex flex-wrap gap-2">
-            {quickChoices.map((choice) => (
-              <button
-                key={choice}
-                type="button"
-                onClick={() => {
-                  const history: ChatMessage[] = [
-                    ...messages,
-                    { role: "user", content: choice },
-                  ];
-                  setMessages(history);
-                  send(history);
-                }}
-                className="rounded-full border border-gray-300 px-4 py-1.5 text-sm font-medium hover:bg-gray-900 hover:text-white dark:border-gray-700 dark:hover:bg-white dark:hover:text-gray-900"
-              >
-                {choice}
-              </button>
-            ))}
+            {quickChoices.map((choice, i) => {
+              const button = (
+                <button
+                  key={choice}
+                  type="button"
+                  onClick={() => {
+                    const history: ChatMessage[] = [
+                      ...messages,
+                      { role: "user", content: choice },
+                    ];
+                    setMessages(history);
+                    send(history);
+                  }}
+                  className="rounded-full border border-gray-300 px-4 py-1.5 text-sm font-medium hover:bg-gray-900 hover:text-white dark:border-gray-700 dark:hover:bg-white dark:hover:text-gray-900"
+                >
+                  {choice}
+                </button>
+              );
+              // Fjärde valet är steg 1:s "berätta mer" — en avstickare, inte ett
+              // fjärde svarsalternativ. Egen rad håller de tre profilsvaren samlade.
+              return quickChoices.length === 4 && i === 3 ? (
+                <div key={choice} className="w-full">
+                  {button}
+                </div>
+              ) : (
+                button
+              );
+            })}
           </div>
         )}
         {streamingText !== null &&
