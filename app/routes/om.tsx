@@ -18,8 +18,8 @@ export default function Om() {
 
       <div className="mt-4 space-y-4 leading-relaxed text-gray-700 dark:text-gray-300">
         <p>
-          Valsnack är ett fristående, ideellt enmansprojekt. Det
-          har ingen koppling till något parti eller någon organisation, ingen
+          Valsnack drivs av en oberoende ideell förening. Den
+          har ingen koppling till något parti, ingen
           extern finansiering och inga annonser — och därmed inget incitament
           att knuffa dig åt något håll. Målet är eftertanke, inte att tala om
           för någon vad den ska tycka eller rösta på.
@@ -59,10 +59,10 @@ export default function Om() {
           Frågor, felaktigheter i underlaget, eller intresse av att granska?
           Hör av dig:{" "}
           <a
-            href="mailto:demokratisakrat@gastrin.se"
+            href="mailto:kontakt@valsnack.se"
             className="underline underline-offset-2"
           >
-            demokratisakrat@gastrin.se
+            kontakt@valsnack.se
           </a>
           . Påpekanden om sakfel eller snedvridning är särskilt välkomna — de
           gör underlaget bättre.

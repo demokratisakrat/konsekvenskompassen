@@ -73,10 +73,10 @@ export default function Integritet() {
         <p className="mt-8">
           Frågor om hanteringen?{" "}
           <a
-            href="mailto:demokratisakrat@gastrin.se"
+            href="mailto:kontakt@valsnack.se"
             className="underline underline-offset-2"
           >
-            demokratisakrat@gastrin.se
+            kontakt@valsnack.se
           </a>
         </p>
       </div>

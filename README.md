@@ -16,7 +16,7 @@ Hela verktyget är läsbart här, ned till varje formulering:
 - **`app/lib/usage-log.server.ts`** — loggningen: bara struktur (session, steg, feltyp, betyg), aldrig samtalsinnehåll. Dina svar lagras inte kopplade till dig.
 - Samtalen drivs av en AI-språkmodell (Claude via Anthropics API); enligt Anthropics API-villkor används inte samtalen för att träna deras modeller.
 
-Påpekanden om sakfel eller snedvridning i underlaget är särskilt välkomna — öppna gärna ett ärende, eller mejla demokratisakrat@gastrin.se.
+Påpekanden om sakfel eller snedvridning i underlaget är särskilt välkomna — öppna gärna ett ärende, eller mejla kontakt@valsnack.se.
 
 ## Utveckling
 
@@ -65,4 +65,4 @@ Workflown kräver dessa Actions-secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACC
 
 ## Kontakt
 
-demokratisakrat@gastrin.se
+kontakt@valsnack.se
