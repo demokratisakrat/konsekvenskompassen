@@ -12,7 +12,7 @@ Ett verktyg från [Demokratisäkrat](https://github.com/demokratisakrat) — fri
 
 Hela verktyget är läsbart här, ned till varje formulering:
 
-- **`app/content/`** — det kuraterade, källbelagda underlaget: sju profiler per politikområde, partimatchningsunderlaget, metodiken och själva samtalsprompten. Det är detta (inte fri AI-improvisation) som styr sakinnehållet i samtalet.
+- **`app/content/`** — det kuraterade, källbelagda underlaget: sju kunskapsprofiler, partimatchningsunderlaget, metodiken och själva samtalsprompten. Det är detta (inte fri AI-improvisation) som styr sakinnehållet i samtalet.
 - **`app/lib/usage-log.server.ts`** — loggningen: bara struktur (session, steg, feltyp, betyg), aldrig samtalsinnehåll. Dina svar lagras inte kopplade till dig.
 - Samtalen drivs av en AI-språkmodell (Claude via Anthropics API); enligt Anthropics API-villkor används inte samtalen för att träna deras modeller.
 
