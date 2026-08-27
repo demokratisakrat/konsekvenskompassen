@@ -28,10 +28,17 @@ export async function action({ request, context }: Route.ActionArgs) {
     return new Response("method not allowed", { status: 405 });
   }
 
-  const { messages, sessionId } = (await request.json()) as {
+  const { messages, sessionId, currentStep } = (await request.json()) as {
     messages: ChatMessage[];
     sessionId?: string;
+    currentStep?: number;
   };
+  // Modellen slutar emittera [STEG:n] efter ett par turer eftersom historiken
+  // den får tillbaka är strippad på markören — därför bär klienten steget.
+  const clientStep =
+    typeof currentStep === "number" && currentStep >= 1 && currentStep <= 5
+      ? Math.floor(currentStep)
+      : 1;
   const turnIndex = messages.filter((m) => m.role === "assistant").length;
   const messageCount = messages.length;
 
@@ -55,7 +62,7 @@ export async function action({ request, context }: Route.ActionArgs) {
 
       let buffer = "";
       let stepSent = false;
-      let resolvedStep = 1;
+      let resolvedStep = clientStep;
 
       function handleDelta(chunk: string) {
         if (stepSent) {

@@ -108,6 +108,7 @@ export default function Kompass() {
         body: JSON.stringify({
           messages: history,
           sessionId: sessionIdRef.current,
+          currentStep: stepRef.current,
         }),
       });
       if (!res.body) throw new Error("Inget svar från servern");
