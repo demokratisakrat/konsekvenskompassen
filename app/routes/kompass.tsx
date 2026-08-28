@@ -11,6 +11,8 @@ export function meta(_: Route.MetaArgs) {
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
 const KICKOFF = "Starta kompassen.";
+// Fyra missade heartbeats i rad — kapad anslutning, inte en långsam modell.
+const SIGNAL_TIMEOUT_MS = 45000;
 const STEP_LABELS: Record<number, string> = {
   1: "Väljarprofil",
   2: "Principfrågor",
@@ -23,6 +25,8 @@ export default function Kompass() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [streamingText, setStreamingText] = useState<string | null>(null);
   const [waitSeconds, setWaitSeconds] = useState(0);
+  const [heartbeats, setHeartbeats] = useState(0);
+  const lastSignalRef = useRef<number>(Date.now());
   const [currentStep, setCurrentStep] = useState(1);
   const [input, setInput] = useState("");
   const [pending, setPending] = useState(false);
@@ -93,12 +97,20 @@ export default function Kompass() {
     setQuickChoices(null);
     setStreamingText("");
     setWaitSeconds(0);
+    setHeartbeats(0);
     let text = "";
     let reachedStep5 = false;
     let streamError = false;
+    let staleConnection = false;
+    lastSignalRef.current = Date.now();
 
+    const controller = new AbortController();
     const waitTimer = setInterval(() => {
       setWaitSeconds((s) => s + 1);
+      if (Date.now() - lastSignalRef.current > SIGNAL_TIMEOUT_MS) {
+        staleConnection = true;
+        controller.abort();
+      }
     }, 1000);
 
     try {
@@ -110,6 +122,7 @@ export default function Kompass() {
           sessionId: sessionIdRef.current,
           currentStep: stepRef.current,
         }),
+        signal: controller.signal,
       });
       if (!res.body) throw new Error("Inget svar från servern");
 
@@ -120,12 +133,17 @@ export default function Kompass() {
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
+        lastSignalRef.current = Date.now();
         buffer += decoder.decode(value, { stream: true });
 
         let idx: number;
         while ((idx = buffer.indexOf("\n\n")) !== -1) {
           const rawEvent = buffer.slice(0, idx);
           buffer = buffer.slice(idx + 2);
+          if (rawEvent.startsWith(":")) {
+            setHeartbeats((n) => n + 1);
+            continue;
+          }
           const eventMatch = rawEvent.match(/^event: (.+)$/m);
           const dataMatch = rawEvent.match(/^data: (.+)$/m);
           if (!eventMatch || !dataMatch) continue;
@@ -142,7 +160,6 @@ export default function Kompass() {
             }
             setCurrentStep(stepRef.current);
           } else if (eventMatch[1] === "delta") {
-            if (!text) clearInterval(waitTimer);
             text += data.text;
             setStreamingText(text);
           } else if (eventMatch[1] === "error") {
@@ -152,7 +169,15 @@ export default function Kompass() {
         }
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
+      if (staleConnection) {
+        setError(
+          text
+            ? "Kontakten med servern bröts mitt i svaret — troligen nätverket, inte du. Skriv gärna \"fortsätt\" så tar jag vid där det slutade."
+            : "Kontakten med servern bröts innan svaret kom — troligen nätverket, inte du. Samtalet är kvar; försök igen.",
+        );
+      } else {
+        setError(err instanceof Error ? err.message : String(err));
+      }
     } finally {
       clearInterval(waitTimer);
       if (text) {
@@ -452,6 +477,14 @@ export default function Kompass() {
           ) : (
             <div className="max-w-[80%] rounded-2xl border border-gray-200 px-4 py-2 text-gray-400 dark:border-gray-800">
               {waitingLabel(waitSeconds, currentStep)}
+              {heartbeats > 0 && (
+                <span
+                  aria-hidden="true"
+                  className="mt-1 block font-mono text-xs tracking-widest text-gray-400 dark:text-gray-500"
+                >
+                  {"·".repeat(Math.min(heartbeats, 24))}
+                </span>
+              )}
             </div>
           ))}
         {error && (

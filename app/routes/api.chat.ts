@@ -12,6 +12,8 @@ type ChatMessage = { role: "user" | "assistant"; content: string };
 
 const STEP_MARKER = /^\**\[STEG:\s*([1-5])\]\**:?\s*/i;
 const STEP_MARKER_GIVEUP_LENGTH = 40;
+// Modellen tänker 1–2 min före första text_delta; utan trafik kapas anslutningen.
+const HEARTBEAT_INTERVAL_MS = 10000;
 
 function sse(event: string, data: unknown): Uint8Array {
   return new TextEncoder().encode(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
@@ -63,8 +65,16 @@ export async function action({ request, context }: Route.ActionArgs) {
       let buffer = "";
       let stepSent = false;
       let resolvedStep = clientStep;
+      let firstTextSeen = false;
+
+      const heartbeat = setInterval(() => {
+        if (!firstTextSeen) {
+          controller.enqueue(new TextEncoder().encode(": ping\n\n"));
+        }
+      }, HEARTBEAT_INTERVAL_MS);
 
       function handleDelta(chunk: string) {
+        firstTextSeen = true;
         if (stepSent) {
           controller.enqueue(sse("delta", { text: chunk }));
           return;
@@ -141,6 +151,7 @@ export async function action({ request, context }: Route.ActionArgs) {
         });
         controller.enqueue(sse("error", { message }));
       } finally {
+        clearInterval(heartbeat);
         controller.close();
       }
     },
