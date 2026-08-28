@@ -6,6 +6,7 @@ export default [
   route("profiler", "routes/profiler.tsx"),
   route("profiler/:slug", "routes/profil.tsx"),
   route("metodik", "routes/metodik.tsx"),
+  route("partimatchning", "routes/partimatchning.tsx"),
   route("andringar", "routes/andringar.tsx"),
   route("om", "routes/om.tsx"),
   route("integritet", "routes/integritet.tsx"),

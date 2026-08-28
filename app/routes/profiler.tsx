@@ -52,6 +52,24 @@ export default function Profiler() {
           </li>
         ))}
       </ul>
+      <hr className="my-8 border-gray-200 dark:border-gray-800" />
+      <h2 className="text-lg font-semibold tracking-tight">
+        Underlaget för partimatchningen
+      </h2>
+      <p className="mt-2 leading-relaxed text-gray-700 dark:text-gray-300">
+        Den frivilliga partimatchningen efter analysen drivs av ett eget
+        dokument: partiernas positioner per område, med källa och status för
+        varje rad. Det är publicerat i sin helhet, inklusive raderna vi ännu
+        inte kunnat belägga.
+      </p>
+      <p className="mt-3">
+        <Link
+          to="/partimatchning"
+          className="font-semibold underline underline-offset-2"
+        >
+          Läs underlaget för partimatchningen
+        </Link>
+      </p>
     </PageShell>
   );
 }
