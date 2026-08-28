@@ -49,15 +49,26 @@ const VERDICT_RE = /^(NÄRA|DELVIS|SKAVER)(\s*⚠️)?$/;
 export function Markdown({
   children,
   compact,
+  newTabLinks,
 }: {
   children: string;
   compact?: boolean;
+  // I chatten: länkar måste öppnas i ny flik, annars navigerar klicket bort
+  // från sidan och hela samtalet är borta (det lever i komponentens state).
+  newTabLinks?: boolean;
 }) {
   return (
     <div className={compact ? "markdown markdown-chat" : "markdown"}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
+          ...(newTabLinks
+            ? {
+                a: (props: React.ComponentProps<"a">) => (
+                  <a {...props} target="_blank" rel="noopener noreferrer" />
+                ),
+              }
+            : {}),
           table: (props) => (
             <div className="overflow-x-auto">
               <table {...props} />

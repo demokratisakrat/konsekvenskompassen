@@ -406,7 +406,7 @@ export default function Kompass() {
               key={i}
               className="max-w-[80%] rounded-2xl border border-gray-200 px-4 py-2 dark:border-gray-800"
             >
-              <Markdown compact>{m.content}</Markdown>
+              <Markdown compact newTabLinks>{m.content}</Markdown>
             </div>
           ),
         )}
@@ -445,7 +445,7 @@ export default function Kompass() {
         {streamingText !== null &&
           (streamingText ? (
             <div className="max-w-[80%] rounded-2xl border border-gray-200 px-4 py-2 dark:border-gray-800">
-              <Markdown compact>
+              <Markdown compact newTabLinks>
                 {streamingText.replace(/\n?\s*\[VAL:[^\]]*\]?\s*$/, "")}
               </Markdown>
             </div>
@@ -575,7 +575,7 @@ export default function Kompass() {
             ) : (
               <div key={i}>
                 <span className="font-bold">Kompassen:</span>
-                <Markdown compact>{m.content}</Markdown>
+                <Markdown compact newTabLinks>{m.content}</Markdown>
               </div>
             ),
           )}
