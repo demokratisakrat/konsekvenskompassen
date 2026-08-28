@@ -14,7 +14,7 @@ Här står det som påverkar samtalet: frågorna, kunskapsunderlaget och partima
 
 **Ett fel i partimatchningen rättades.** Socialdemokraternas position om ny kärnkraft beskrevs som teknikneutral, när partiet öppnat för statligt stöd redan i augusti 2025. Klimatavsnittet hade dessutom en enda skiljelinje och har nu fyra. Kristdemokraternas valmanifest, presenterat 21 augusti, är inarbetat.
 
-**Analysen justerades för balans.** Ett internt test där samma samtal kördes två gånger med spegelvända åsikter visade att identiskt beteende beskrevs olika beroende på åt vilket håll åsikterna lutade — samma sak kunde framställas som undanglidning i det ena fallet och principfasthet i det andra. Fyra regler lades till för att hindra det. En kvarvarande snedvridning är ännu inte löst och är dokumenterad i [metodiken](/metodik).
+**Analysen justerades för balans.** Ett internt test där samma samtal kördes två gånger med spegelvända åsikter visade att identiskt beteende beskrevs olika beroende på åt vilket håll åsikterna lutade — samma sak kunde framställas som undanglidning i det ena fallet och principfasthet i det andra. Fyra regler lades till för att hindra det. En snedvridning återstår: testet visade att vänsterlutande svar möttes av något färre följdfrågor än högerlutande av samma längd och tvärsäkerhet, tydligast i EU-frågan. Vi har inte lyckats rätta den — ett första försök bet inte, och vi vill hellre förstå orsaken än skriva en regel på gissning. Den är beskriven i sin helhet i [metodiken](/metodik).
 
 ## 14–19 augusti 2026
 
