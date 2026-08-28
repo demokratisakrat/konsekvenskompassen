@@ -10,7 +10,7 @@ Ett verktyg från [Demokratisäkrat](https://github.com/demokratisakrat) — fri
 
 ## Öppenhet som princip
 
-Hela verktyget är läsbart här, ned till varje formulering:
+Hela verktyget är läsbart här, ned till varje formulering — och allt som styr samtalet är dessutom publicerat som läsbara sidor på sajten, inklusive [partimatchningsunderlaget](https://valsnack.se/partimatchning) och en [logg över vad som ändrats](https://valsnack.se/andringar):
 
 - **`app/content/`** — det kuraterade, källbelagda underlaget: sju kunskapsprofiler, partimatchningsunderlaget, metodiken och själva samtalsprompten. Det är detta (inte fri AI-improvisation) som styr sakinnehållet i samtalet.
 - **`app/lib/usage-log.server.ts`** — loggningen: bara struktur (session, steg, feltyp, betyg), aldrig samtalsinnehåll. Dina svar lagras inte kopplade till dig.
@@ -50,6 +50,8 @@ Workflown kräver dessa Actions-secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACC
 - `app/routes/home.tsx` — startsida
 - `app/routes/kompass.tsx` — chattgränssnittet, steg 1–4 obligatoriska + frivilligt steg 5 (partimatchning)
 - `app/routes/profiler.tsx`, `app/routes/profil.tsx` — index och detaljvy för de sju kunskapsunderlagen
+- `app/routes/partimatchning.tsx` — underlaget som styr den frivilliga partimatchningen, publicerat i sin helhet
+- `app/routes/andringar.tsx` — vad som ändrats i frågor och underlag under valrörelsen, och varför
 - `app/routes/metodik.tsx`, `app/routes/integritet.tsx`, `app/routes/om.tsx` — publika sidor
 - `app/routes/api.chat.ts` — serverresurs som anropar Anthropic (eller mock-läge)
 - `app/routes/api.feedback.ts`, `app/routes/api.timing.ts`, `app/routes/stats.tsx` — feedback, steg-tider och användningsstatistik
