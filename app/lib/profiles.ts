@@ -10,6 +10,8 @@ export type Profile = {
   slug: string;
   title: string;
   description: string;
+  // "Ändrad", inte "granskad": ingen utomstående har läst underlaget än.
+  updated: string;
   md: string;
 };
 
@@ -19,6 +21,7 @@ export const PROFILES: Profile[] = [
     title: "Välfärd och statens roll",
     description:
       "Valfrihet vs. likvärdighet, vinstfrågan, och den långsiktiga personalförsörjningen i vården.",
+    updated: "2026-08-11",
     md: profilValfard,
   },
   {
@@ -26,6 +29,7 @@ export const PROFILES: Profile[] = [
     title: "Lag och ordning",
     description:
       "Straffskärpning vs. upptäcktsrisk, kriminalvårdens kapacitet, och skillnaden mellan empiri och rättskänsla.",
+    updated: "2026-08-11",
     md: profilLagOchOrdning,
   },
   {
@@ -33,6 +37,7 @@ export const PROFILES: Profile[] = [
     title: "Klimat och energi",
     description:
       "Styrmedel, kärnkraft vs. förnybart, och elnätet som strukturell flaskhals.",
+    updated: "2026-08-27",
     md: profilKlimatEnergi,
   },
   {
@@ -40,6 +45,7 @@ export const PROFILES: Profile[] = [
     title: "Ekonomi och skatter",
     description:
       "Omfördelning vs. drivkrafter, skatt på arbete vs. kapital, och budgetdisciplin vs. investeringsbehov.",
+    updated: "2026-08-11",
     md: profilEkonomiSkatter,
   },
   {
@@ -47,6 +53,7 @@ export const PROFILES: Profile[] = [
     title: "Migration och medborgarskap",
     description:
       "Humanitärt åtagande vs. kapacitet, arbetskraftsinvandring och välfärdens personalförsörjning, krav vs. exkludering.",
+    updated: "2026-08-11",
     md: profilMigration,
   },
   {
@@ -54,6 +61,7 @@ export const PROFILES: Profile[] = [
     title: "EU och omvärld",
     description:
       "Gemensam handlingskraft vs. självbestämmande, avgift vs. marknadstillträde, och säkerhetspolitikens bindningar.",
+    updated: "2026-08-11",
     md: profilEuOmvarld,
   },
   {
@@ -61,6 +69,7 @@ export const PROFILES: Profile[] = [
     title: "Infrastruktur och regionalpolitik",
     description:
       "Lönsamhet vs. regional rättvisa, underhåll vs. nybyggnad, och utjämningen mellan kommuner.",
+    updated: "2026-08-11",
     md: profilInfrastruktur,
   },
 ];

@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import type { Route } from "./+types/metodik";
 import { PageShell } from "../components/PageShell";
 import { Markdown } from "../components/Markdown";
@@ -24,6 +25,14 @@ export default function Metodik() {
         inklusive de svagheter och öppna frågor vi själva ser. Dokumentet
         hänvisar till projektets interna filer; allt väsentligt innehåll finns
         publicerat här på sajten under kunskapsunderlagen.
+      </p>
+      <p className="mt-4 leading-relaxed text-gray-700 dark:text-gray-300">
+        Verktyget ändras medan valrörelsen pågår — vi rättar hellre ett fel än
+        väntar till efter valet. Vad som ändrats, och varför, står på{" "}
+        <Link to="/andringar" className="underline underline-offset-2">
+          sidan om ändringar i underlaget
+        </Link>
+        .
       </p>
       <hr className="my-8 border-gray-200 dark:border-gray-800" />
       <Markdown>{metodikMd}</Markdown>

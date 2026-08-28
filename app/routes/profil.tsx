@@ -46,6 +46,15 @@ export default function Profil({ params }: Route.ComponentProps) {
         </Link>
       </p>
       <Markdown>{profile.md}</Markdown>
+      <hr className="my-8 border-gray-200 dark:border-gray-800" />
+      <p className="text-sm text-gray-500 dark:text-gray-400">
+        Senast ändrad {profile.updated}. Ingen utomstående har ännu granskat
+        underlaget — se{" "}
+        <Link to="/andringar" className="underline underline-offset-2">
+          vad som ändrats och varför
+        </Link>
+        .
+      </p>
     </PageShell>
   );
 }
