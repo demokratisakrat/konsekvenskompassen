@@ -3,7 +3,7 @@
 > **STATUS: VERIFIERAT UTKAST — EJ EXTERNT GRANSKAT.**
 > Första utkast 2026-08-08. **Verifieringspass 2026-08-09** och **färskhetspass 2026-08-27** (se verifieringsloggarna längst ner). ✔ = verifierad mot källa; ⚠️ = fortfarande obekräftad eller osäker i detalj. Kvarstår före aktivering i skarp lansering: extern granskning av politisk journalist (se `plan.md` 1b).
 >
-> **OBS:** förtidsröstningen öppnade 26 augusti 2026. Underlaget läses alltså redan av personer som kan rösta samma dag — frysdatumet 1 september ligger efter att röstningen börjat.
+> **OBS:** förtidsröstningen öppnade 26 augusti 2026. Underlaget läses alltså redan av personer som kan rösta samma dag.
 
 ## 1. Form: ett aktivt val efter resultatet
 
@@ -211,7 +211,7 @@ Sakprofilernas självtest anpassat: *"Skulle partiets egen väljare känna sig r
 - **Granskare:** vilken politisk journalist — och vad innebär "stå för det" i praktiken (namn på metodiksidan? läser varje uppdatering?). Verifieringspasset gör granskningen till en rimlig genomläsning snarare än ett researchjobb.
 - **Kvarvarande ⚠️ efter passet 2026-08-27:** S/V/MP:s reservationer i straffreformen, balansmålsreservationerna (SOU 2024:76), V/MP/C:s hållning till medborgarskapskravens återställning, utjämningssystemet (SOU 2024:50), SD:s EU-läge 2026, L:s och C:s migrationsavsnitt i detalj, samt sex av åtta partiers position på klimatanpassning.
 - **Avklarat i passet 2026-08-27:** SD:s vinstposition i välfärden ✔, S:s kärnkraftsposition ✔ (och den var dessutom felaktigt beskriven), KD:s samlade manifest ✔, klimatområdets tre saknade axlar ✔.
-- **Frysdatum:** underlaget fryses 1 september och datumet visas för användaren; sena positionsbyten därefter hanteras inte. **Notera att förtidsröstningen öppnade redan 26 augusti** — underlaget läses av personer som kan rösta samma dag, vilket gör kvarvarande ⚠️-punkter mer kännbara än när frysdatumet sattes.
+- **Ändringar medan röstningen pågår — öppen fråga.** Tanken på ett frysdatum 1 september är struken; den var ett mål, inte ett beslut, och den hade hindrat rättelser som den 27 augusti. Men därmed saknas en hållning i det fall som faktiskt är känsligt: att ändra vad ett *parti* sägs stå för medan människor röstar på den grunden. Att rätta ett sakfel är uppenbart rätt; att flytta en partiposition efter att någon läst den och röstat är något annat. Frågan är obesvarad och bör besvaras före 13 september. Förtidsröstningen öppnade 26 augusti.
 - **Partier under spärren:** enbart nuvarande riksdagspartier matchas, sagt öppet.
 - ~~Två områden saknar underlag~~ **Alla principområden har underlag** (EU och omvärld samt infrastruktur/regionalpolitik tillagda 2026-08-09). Matchningen är därmed komplett i bredd, om än fortfarande med enskilda ⚠️-punkter kvar per område.
 
