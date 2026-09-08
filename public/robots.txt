@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /stats
+Disallow: /design
+
+Sitemap: https://valsnack.se/sitemap.xml

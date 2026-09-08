@@ -15,4 +15,5 @@ export default [
   route("api/timing", "routes/api.timing.ts"),
   route("stats", "routes/stats.tsx"),
   route("design", "routes/design.tsx"),
+  route("sitemap.xml", "routes/sitemap.xml.ts"),
 ] satisfies RouteConfig;
