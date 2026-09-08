@@ -26,9 +26,11 @@ aktiverats i Model Garden för projektet (formulär med företagsuppgifter och
 Anthropics användarvillkor) och (2) kvot — nya projekt har 0 som standard för
 partnermodeller; kvotökning begärs i konsolen för de tre
 `eu_multi_region_online_prediction_*`-mätvärdena med dimension
-`anthropic-claude-sonnet` (begärt 2026-08-19: 30 req/min, 500k in-tokens/min,
-100k ut-tokens/min). Valfria vars: `CLAUDE_VERTEX_MODEL` (standard
-claude-sonnet-5), `CLAUDE_VERTEX_LOCATION` (standard `eu`).
+`anthropic-claude-sonnet` (30 req/min, 500k in-tokens/min, 100k ut-tokens/min).
+Första ansökan 2026-08-19 avslogs — nytt projekt utan faktureringshistorik;
+omsänd 2026-08-24. Tills kvoten landar är `claude-vertex` obrukbar (429).
+Valfria vars: `CLAUDE_VERTEX_MODEL` (standard claude-sonnet-5),
+`CLAUDE_VERTEX_LOCATION` (standard `eu`).
 
 ## Gemini — via Vertex AI, EU-pinnad
 
