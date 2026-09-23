@@ -73,11 +73,13 @@ export default function Kompass() {
     }).catch(() => {});
   }
 
-  // Sista raden "[VAL: A | B]" är modellens knappförslag — plocka ut och rensa.
-  const CHOICES_RE = /\n?\s*\[VAL:\s*([^\]]+)\]\s*$/;
+  // "[VAL: A | B]" är modellens knappförslag — plocka ut och rensa. Den ska stå sist, men modellen lägger ibland
+  // en mening efter (sett 2026-09-23: "Vill du veta mer … säg bara till."), så markören hittas var den än står.
+  const CHOICES_RE = /\n?[ \t]*\[VAL:\s*([^\]]+)\][ \t]*/g;
 
   function extractChoices(raw: string): { text: string; choices: string[] | null } {
-    const m = raw.trimEnd().match(CHOICES_RE);
+    const all = [...raw.matchAll(CHOICES_RE)];
+    const m = all[all.length - 1];
     if (!m) return { text: raw, choices: null };
     const choices = m[1]
       .split("|")
@@ -86,7 +88,7 @@ export default function Kompass() {
       // Fyra, inte tre: steg 1 lägger "Vad väntar mig?" bredvid de tre profilerna.
       .slice(0, 4);
     return {
-      text: raw.trimEnd().replace(CHOICES_RE, ""),
+      text: raw.replace(CHOICES_RE, "\n").replace(/\n{3,}/g, "\n\n").trim(),
       choices: choices.length > 0 ? choices : null,
     };
   }
@@ -471,7 +473,7 @@ export default function Kompass() {
           (streamingText ? (
             <div className="max-w-[80%] rounded-2xl border border-gray-200 px-4 py-2 dark:border-gray-800">
               <Markdown compact newTabLinks>
-                {streamingText.replace(/\n?\s*\[VAL:[^\]]*\]?\s*$/, "")}
+                {streamingText.replace(CHOICES_RE, "\n").replace(/\n?\s*\[VAL:[^\]]*$/, "")}
               </Markdown>
             </div>
           ) : (
