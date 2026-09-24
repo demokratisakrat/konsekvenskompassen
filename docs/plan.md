@@ -64,7 +64,19 @@ Kvalitet (läst bredvid varandra, utfallen i `scripts/modell-ut/`): alla tio lyc
 
 **Rekommendation:** byt till Opus 5.5 med effort low. Kräver att `anthropic.server.ts` skickar `output_config.effort` (i dag skickas inget, vilket på Opus 5.5 ger medium). Modell och effort som miljövariabler så att bytet går att backa utan deploy.
 
-## Nästa steg: mät Gemini 3.x mot 2.5 (2026-09-08)
+## EU-dataresidens: huvudspår och reservspår (2026-09-24)
+
+Huvudspåret är **Claude via Vertex AI i EU-multiregionen** (`claude-vertex`,
+`docs/ai-providers.md`): samma modellfamilj och prompt som produktionen, byggt och
+verifierat till endpointen, blockerat av Googles kvot sedan 2026-08-19. Modellbytet
+till Opus 5.5 ger en följdfråga: kvotansökan gäller `anthropic-claude-sonnet`, så
+EU-spåret kör Sonnet 5 om inte Opus 5.5 också aktiveras i Model Garden för `eu`.
+Kolla det när kvoten landar; annars blir steg 5 långsammare i EU-läget än direkt.
+
+Gemini är ett reservspår, inte beslutat. Mätningen nedan är vad som skulle behöva
+göras om det spåret blir aktuellt.
+
+### Reservspår: mät Gemini 3.x mot 2.5 (2026-09-08)
 
 Latenstabellen i `docs/ai-providers.md` bygger helt på 2.5-generationen. 3.x-flash
 finns numera i EU-multiregionen `eu` och är värd en jämförelse innan Gemini

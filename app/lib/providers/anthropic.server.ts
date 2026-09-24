@@ -19,8 +19,7 @@ export const anthropicProvider: ChatProvider = {
       // hårt tak på tänkande + svarstext tillsammans — för lågt tak kapar
       // långa svar (steg 4-analysen) mitt i meningen med stop_reason max_tokens.
       max_tokens: 32000,
-      // Effort styr tänkandet före första tecknet. Mätt 2026-09-24 (docs/plan.md): claude-opus-5-5 med low ger
-      // första token på ~25 s i steg 5 mot ~68 s för claude-sonnet-5 medium, till samma kostnad.
+      // Effort: mätning och val i docs/plan.md.
       ...(env.ANTHROPIC_EFFORT ? { output_config: { effort: env.ANTHROPIC_EFFORT } } : {}),
       system: [
         { type: "text", text: system, cache_control: { type: "ephemeral" } },

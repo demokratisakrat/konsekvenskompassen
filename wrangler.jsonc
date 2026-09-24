@@ -14,7 +14,6 @@
   "vars": {
     // "anthropic", "claude-vertex" eller "gemini" — se app/lib/providers/
     "CHAT_PROVIDER": "anthropic",
-    // Bytt 2026-09-24 från claude-sonnet-5 (utan effort) efter mätningen i docs/plan.md.
     "ANTHROPIC_MODEL": "claude-opus-5-5",
     "ANTHROPIC_EFFORT": "low",
   },
