@@ -2,7 +2,7 @@
 
 En valkompass inför riksdagsvalet 2026 som inte bara frågar vad du tycker — den visar vad dina svar kostar, och vem som får betala.
 
-**Prova den:** https://valsnack.se *(även konsekvenskompassen.se)*
+**Prova den:** https://valsnack.se *(konsekvenskompassen.se och www 301:ar hit)*
 
 Vanliga valkompasser matchar åsikter mot partier. Valsnack är byggd för eftertanke: i ett samtal synliggör den målkonflikter, systemeffekter och tidshorisonter bakom dina ståndpunkter — även där de träffar din egen situation. Resultatet är en ideologisk profil och en systemprofil; partimatchning erbjuds som ett frivilligt steg efteråt.
 

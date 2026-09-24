@@ -5,7 +5,7 @@
   "routes": [
     { "pattern": "konsekvenskompassen.se", "custom_domain": true },
     { "pattern": "www.konsekvenskompassen.se", "custom_domain": true },
-    // Namntest: valsnack.se pekar på samma app tills namnfrågan är avgjord.
+    // valsnack.se är kanonisk; www och den gamla domänen 301:ar dit i workers/app.ts.
     { "pattern": "valsnack.se", "custom_domain": true },
     { "pattern": "www.valsnack.se", "custom_domain": true },
   ],

@@ -47,3 +47,39 @@ Medium är ~45 % snabbare till första tecknet och genererar ~40 % färre ut-tok
 Att veta innan bytet: routen känner steget, så medium enbart i steg 5 går att göra — men ett effort-byte mitt i ett samtal invaliderar meddelandecachen (mätningarna visade `cache_read=53769`). Globalt medium undviker det; per steg kostar en cache-omskrivning vid övergången till matchningen.
 
 **Sidofynd, oberoende av effort:** reduktionspliktsaxeln (`partimatchning.md`, avsnittet om transportomställningens kostnad) användes i 1 av 8 körningar, trots att testpersonens ståndpunkt ("tyngdpunkt på den som förbrukar mest, med kompensation till dem utan alternativ") ligger nästan ordagrant på V:s dokumenterade linje. Kuraterat underlag som inte når fram till matchningen.
+
+## Modellbyte: claude-opus-5-5 mot claude-sonnet-5 på steg 5 (mätt 2026-09-24)
+
+`scripts/modell-ab.mjs`, samma sparade samtal och mått som effort-A/B:t, fyra körningar per inställning, varm cache (53 769 tokens läsning). Två Opus-medium-körningar avbröts med "terminated" från SDK:n när datorn gick i viloläge, så där är n=2.
+
+| | Första token | Totalt | Ut-tokens (inkl. tänkande) | Kostnad ut per steg 5 |
+|---|---|---|---|---|
+| Sonnet 5, medium (dagens kandidat) | 62–76 s, snitt 68 | 86–101 s, snitt 93 | 6 600–7 900 | ≈7 öre |
+| Opus 5.5, medium (standard) | 54–63 s, snitt 58 | 72–80 s, snitt 76 | 7 800–8 500 | ≈16 öre |
+| Opus 5.5, low | 20–29 s, snitt 25 | 34–46 s, snitt 40 | 3 400–4 800 | ≈8 öre |
+
+Cacheläsningen kostar lika på båda modellerna, så per steg 5 är Opus low i praktiken lika dyr som Sonnet medium, och 2,7 gånger snabbare till första tecknet. Klientens 45-sekundersvakthund blir då sällan aktuell.
+
+Kvalitet (läst bredvid varandra, utfallen i `scripts/modell-ut/`): alla tio lyckade körningar har `[STEG:5]` först och `[VAL:]`-raden sist. Reduktionspliktsaxeln matchades med V "nära" i 1 av 4 Sonnet-körningar, 1 av 2 Opus medium och 1 av 4 Opus low, alltså samma svaghet oavsett modell; Opus medium-2 gjorde det bäst, med en uttalad rättelse av sin tidigare tolkning av testpersonens svar. Opus-texterna flaggar oftare öppet vad som inte går att matcha ("går inte att tolka säkert, räknas inte in"), förklarar partiförkortningarna och benämner korsblocksnyanser (KD och vårdens huvudmannaskap). Ingen körning hittade på partipositioner utanför underlaget.
+
+**Rekommendation:** byt till Opus 5.5 med effort low. Kräver att `anthropic.server.ts` skickar `output_config.effort` (i dag skickas inget, vilket på Opus 5.5 ger medium). Modell och effort som miljövariabler så att bytet går att backa utan deploy.
+
+## Nästa steg: mät Gemini 3.x mot 2.5 (2026-09-08)
+
+Latenstabellen i `docs/ai-providers.md` bygger helt på 2.5-generationen. 3.x-flash
+finns numera i EU-multiregionen `eu` och är värd en jämförelse innan Gemini
+avfärdas eller väljs — se modelltabellen där för vad som är nåbart.
+
+Att göra:
+
+1. Gemini-variant av `scripts/steg5-replay.mjs` (nuvarande går direkt mot
+   Anthropic-SDK:n) som kör samma sparade samtal mot `eu` + `gemini-3.8-flash`.
+2. Mät första token och total tid för steg 5, samma mått som effort-A/B:t, så
+   siffrorna går att ställa mot claude-sonnet-5 och 2.5-pro.
+3. Verifiera att streaming faktiskt går igenom — tillgänglighetsprobet var
+   `countTokens`, som inte nödvändigtvis delar kvot med `generateContent`.
+4. Kontrollera att STEG-markörer och VAL-knappar överlever modellbytet; det är
+   promptberoende beteende och 3.x är inte testat mot vår systemprompt.
+
+Öppen fråga som mätningen ska besvara: räcker Flash-nivåns resonemang i steg 4/5?
+Slutsatsen om 2.5-pro:s tankebudget säger inget om 3.x, som har annan tankemekanik.
