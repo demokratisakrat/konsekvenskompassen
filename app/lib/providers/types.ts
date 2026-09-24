@@ -6,6 +6,7 @@ export type ProviderChatMessage = { role: "user" | "assistant"; content: string 
 export type ProviderEnv = {
   ANTHROPIC_API_KEY?: string;
   ANTHROPIC_MODEL?: string;
+  ANTHROPIC_EFFORT?: "low" | "medium" | "high";   // saknas → modellens standard
   GOOGLE_CLOUD_PROJECT?: string;
   GOOGLE_SERVICE_ACCOUNT_KEY?: string;
   GEMINI_MODEL?: string;
